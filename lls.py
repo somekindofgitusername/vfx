@@ -6,24 +6,25 @@ import argparse
 
 parser = argparse.ArgumentParser(description='Show filepatterns of numbered files')
 parser.add_argument('-s', '--size', help='display size of file patterns', action='store_true')
+parser.add_argument('-m', '--minimal', help='only show file patterns', action='store_true')
 parser.add_argument('-v', '--verbose', type=int, nargs="?", const=1, help='display elements of file patterns with | (present) and . (not present) ')#, action='store_true')
 
 args = parser.parse_args()
 #=======/argparse==================================================================
-
+class color:
+    PURPLE = '\033[95m'
+    CYAN = '\033[96m'
+    DARKCYAN = '\033[36m'
+    BLUE = '\033[94m'
+    GREEN = '\033[92m'
+    YELLOW = '\033[93m'
+    RED = '\033[91m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+    END = '\033[0m'
 
 def condensedString(l, n):
-    class color:
-        PURPLE = '\033[95m'
-        CYAN = '\033[96m'
-        DARKCYAN = '\033[36m'
-        BLUE = '\033[94m'
-        GREEN = '\033[92m'
-        YELLOW = '\033[93m'
-        RED = '\033[91m'
-        BOLD = '\033[1m'
-        UNDERLINE = '\033[4m'
-        END = '\033[0m'
+
 
     resultList = []
     import itertools
@@ -92,7 +93,11 @@ for k,v in filePatterns.items():
             minFrameNum = min(minFrameNum, currentFrameNum)
             maxFrameNum = max(maxFrameNum, currentFrameNum)
 
-    message = filePattern + "\t----> has range: "+ str(minFrameNum) +"..." + str(maxFrameNum) +"\tcompleted( "+ str(len(filePatternMatches)) + " )"
+    #------ arguments and options ----------------
+    if args.minimal:
+        message = filePattern
+    else:
+        message = filePattern + "\t----> has range: "+ str(minFrameNum) +"..." + str(maxFrameNum) +"\tcompleted( "+ str(len(filePatternMatches)) + " )"
 
     #adds ASCII representation of frames
     if args.verbose:
@@ -107,7 +112,8 @@ for k,v in filePatterns.items():
         cmd = "du -h -c "+filePattern+" | tail -1"
         cmdOut = subprocess.check_output(cmd, shell=True).split()[0]
         message += " total size: "+ str(cmdOut)
-        
+    #------/arguments and options ----------------    
+    
     result.append(message)
 
 #==================================================================================
