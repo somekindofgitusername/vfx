@@ -1,13 +1,13 @@
 #!/usr/bin/python
 
-import sys
+import argparse
+import fnmatch
+import glob
+import itertools 
 import os
 import re
-import glob
-import fnmatch
-import argparse
-import itertools 
 import subprocess
+import sys
 
 class Color:
     PURPLE = "\033[95m"
