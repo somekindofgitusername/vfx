@@ -10,37 +10,37 @@ import itertools
 import subprocess
 
 class Color:
-    PURPLE = '\033[95m'
-    CYAN = '\033[96m'
-    DARKCYAN = '\033[36m'
-    BLUE = '\033[94m'
-    GREEN = '\033[92m'
-    YELLOW = '\033[93m'
-    RED = '\033[91m'
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[4m'
-    END = '\033[0m'
+    PURPLE = "\033[95m"
+    CYAN = "\033[96m"
+    DARKCYAN = "\033[36m"
+    BLUE = "\033[94m"
+    GREEN = "\033[92m"
+    YELLOW = "\033[93m"
+    RED = "\033[91m"
+    BOLD = "\033[1m"
+    UNDERLINE = "\033[4m"
+    END = "\033[0m"
 
 def parse_args():
     """Parse arguments.
     """
-    parser = argparse.ArgumentParser(description='Show filepatterns of numbered files')
-    parser.add_argument('-s', '--size', help='display size of file patterns', action='store_true')
-    parser.add_argument('-m', '--minimal', help='only show file patterns', action='store_true')
-    parser.add_argument('-v', '--verbose', type=int, nargs="?", const=1,
-                        help='display elements of file patterns with | (present) and . (not present) ')
+    parser = argparse.ArgumentParser(description="Show filepatterns of numbered files")
+    parser.add_argument("-s", "--size", help="display size of file patterns", action="store_true")
+    parser.add_argument("-m", "--minimal", help="only show file patterns", action="store_true")
+    parser.add_argument("-v", "--verbose", type=int, nargs="?", const=1,
+                        help="display elements of file patterns with | (present) and . (not present) ")
 
     args = parser.parse_args()
     return args
 
-def condensed_string(l, n):
+def condensed_string(maskString, n):
     """Take a string like |||.|||..... and rewrite in
     in such a way that characters appearing n times contigously
     are reduced to one occurance 
     """
     resultList = []
-    for grouping_value, group_items in itertools.groupby(l):
-        grp = ''.join(list(group_items))
+    for grouping_value, group_items in itertools.groupby(maskString):
+        grp = "".join(list(group_items))
         grpLen = len(grp)
         multiple = (grpLen / n)
         remainder = grpLen%n
@@ -49,13 +49,13 @@ def condensed_string(l, n):
         condensedValue = condensedItemType*multiple + itemType*remainder
         resultList.append(condensedValue)
 
-    return " verbosity on ("+str(n)+"s):"+''.join(resultList)
+    return " verbosity on ("+str(n)+"s):"+"".join(resultList)
 
 def atoi(text):
     return int(text) if text.isdigit() else text
 
 def natural_keys(text):
-    return [ atoi(c) for c in re.split(r'(\d+)', text) ]
+    return [ atoi(c) for c in re.split(r"(\d+)", text) ]
 
 def contains_digit(s):
     """Find all files that contain a number and store their patterns.
@@ -77,12 +77,12 @@ def frames_ascii(minFrameNum, maxFrameNum, frames):
 def get_work_items(cwd):
     """Return work items aka the list of files to process.
     """
-    items = filter(lambda f: not f.startswith('.'), os.listdir(cwd) ) 
+    items = filter(lambda f: not f.startswith("."), os.listdir(cwd) ) 
     items = filter(lambda f: not os.path.isdir(f), items)
     items = filter(contains_digit, items)
     filePatterns = {}
     for item in items:
-        m = re.search(r'\d+(?=\D*$)', item) #search for a number starting at the string's back
+        m = re.search(r"\d+(?=\D*$)", item) #search for a number starting at the string"s back
         
         frameNum = int(m.group(0))
         fileItem = item.rsplit(str(frameNum), 1) #split only once from back
@@ -115,7 +115,7 @@ def main():
         
         frames = []
         for fileName in filePatternMatches:
-            m = re.search(r'\d+(?=\D*$)', fileName)
+            m = re.search(r"\d+(?=\D*$)", fileName)
             currentFrameNum = int(m.group(0))
             frames.append(currentFrameNum) #list of all frames
             if minFrameNum==None:
@@ -134,11 +134,11 @@ def main():
 
         #adds ASCII representation of frames
         if args.verbose:
-            visualMessage = "\nframes: " + "".join( frames_ascii(minFrameNum, maxFrameNum, frames) ) 
+            verboseMessage = "\nframes: " + "".join( frames_ascii(minFrameNum, maxFrameNum, frames) ) 
             if args.verbose>1:
-                visualMessage = condensed_string(visualMessage, args.verbose)
+                verboseMessage = condensed_string(verboseMessage, args.verbose)
 
-            message += visualMessage
+            message += verboseMessage
 
         #add total filesize per filepattern
         if args.size:
@@ -156,5 +156,5 @@ def main():
 
 #===== /MAIN ========================================================================
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     sys.exit(main())
