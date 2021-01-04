@@ -2,47 +2,48 @@
 
 import os.path
 from os import path
-import time, os
+import time
+import os
 
-print ("\n\n===========================")
+print("\n\n===== renderseq ==================")
 hou.hipFile.save()
 
 nums_node = hou.node("/stage/nums")
 frames = map(int, nums_node.parm("nums").eval().split())
-print (frames)
 rs_node = hou.selectedNodes()[0]
-print (rs_node)
 image_path = rs_node.parm("picture").eval()
-# imagesize = str( rs_node.parm('resolutionx').eval() ) + '_x_' +str( rs_node.parm('RS_overrideRes2').eval() )
 n = rs_node
 xs = str(rs_node.parmTuple(n.path() + "/resolution")[0].eval())
 ys = str(rs_node.parmTuple(n.path() + "/resolution")[0].eval())
 imagesize = xs + "_x_" + ys
 
+print("frames: ", str(frames))
+print("redshift render node (rsNode): ", rs_node)
 
 for f in frames:
-    print ("\n ... frame ", str(f))
+    print("\n ... frame ", str(f))
     hou.setFrame(f)
     image_path = rs_node.parm("picture").eval()
 
     if path.exists(image_path):
-        print image_path, " exists"
+        print(image_path, " exists")
 
     else:
-        print image_path, " does not exist"
+        print(image_path, " does not exist")
 
         rs_node.parm("execute").pressButton()
         path_is = path.exists(image_path)
         path_is_not = not path_is
+
         while path_is_not:
-            print " ... waiting for file ... ", image_path
+            print(" ... waiting for file ... ", image_path)
             time.sleep(20)
             path_is = path.exists(image_path)
             path_is_not = not path_is
             if path_is:
                 break
 
-        print "\n out of while for path", image_path
+        print("\n out of while for path", image_path)
 
         hipfilename = hou.hipFile.path()
         mycommand = "setfattr -n user.hipfile -v " + hipfilename + " " + image_path
@@ -54,13 +55,14 @@ for f in frames:
             + image_path
         )
         mycommand4 = "setfattr -n user.imagesize -v " + imagesize + " " + image_path
-        print "mycommand ", mycommand
-        print "mycommand2 ", mycommand2
+        print("mycommand ", mycommand)
+        print("mycommand2 ", mycommand2)
         os.system(mycommand)
         os.system(mycommand2)
         os.system(mycommand3)
         os.system(mycommand4)
         try:
+            # some hard coded paths. Beware.
             lut = hou.parm("/obj/cam1/RS_campro_lutFile").eval()
             env = hou.parm("/stage/domelight1/xn__texturefile_0ta").eval()
             dist = (
@@ -88,7 +90,6 @@ for f in frames:
         except:
             pass
 
-import os
 
 os.system("shutdown")
 # os.system('systemctl suspend')
