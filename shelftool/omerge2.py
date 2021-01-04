@@ -1,4 +1,7 @@
-# Object merge version2 ------------------------------------------------------------------------------
+# hou shelftool
+# Object merge version2
+# a filemergenode with selected node(s) as input appears
+# suggested shortcut F1
 
 import sys
 
@@ -9,11 +12,11 @@ import hou
 def omerge():
     # n = hou.selectedNodes()[0]
     for n in hou.selectedNodes():
-        print "n: ", (n)
+        print("n: ", str(n))
         node_path = n.path()
         n_pos = n.position()
         m = n.parent().createNode("object_merge")
-        print "n.parent()", n.parent()
+        print("n.parent()", n.parent())
         offset_y = n.size()[1]
         v2 = hou.Vector2((0, offset_y))
 
@@ -27,7 +30,7 @@ def omerge():
         parm_dict["objpath2"] = m.relativePathTo(n)
         parm_dict["enable2"] = False
         m.setParms(parm_dict)
-        name = "_merge"
+        name = "_merge_" + n.name()
         m.setName(name, True)
         m.setColor(hou.Color((0, 0, 0)))
         m.setDisplayFlag(True)
