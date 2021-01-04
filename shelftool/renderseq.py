@@ -6,10 +6,13 @@ import time
 import os
 
 print("\n\n===== renderseq ==================")
+
 hou.hipFile.save()
 
+# get string of frames to render
 nums_node = hou.node("/stage/nums")
 frames = map(int, nums_node.parm("nums").eval().split())
+
 rs_node = hou.selectedNodes()[0]
 image_path = rs_node.parm("picture").eval()
 n = rs_node
