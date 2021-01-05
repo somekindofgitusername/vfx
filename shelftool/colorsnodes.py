@@ -15,10 +15,11 @@ def color_nodes():
 
     class Look:
         """A class for houdini nodes look
-        """        
-
+        """       
+        #colors 
         PURPLE = hou.Color((0.205, 0.101, 0.300))
         LIGHTPURPLE = hou.Color((0.451, 0.369, 0.796))
+        BORDEAUX = hou.Color((0.384, 0.184, 0.329))
         RED = hou.Color((1.0, 0.0, 0.0))
         BLACK = hou.Color((0.0, 0.0, 0.0))
         WHITE = hou.Color((1.0, 1.0, 1.0))
@@ -34,7 +35,7 @@ def color_nodes():
         WATERBLUE = hou.Color((0.094, 0.369, 0.690))
         BEIGE = hou.Color((0.3, 0.1875, 0.075))
         PINKL = hou.Color((0.956, 0.172, 1.0))
-
+        #userData("nodeshape")
         TILTED = "tilted"
         RECT = "rect"
         BONE = "bone"
@@ -46,6 +47,11 @@ def color_nodes():
         SQUARE = "squared"
         TRAPD = "trapezoid_down"
         TRAPU = "trapezoid_up"
+        LIGHT = "light"
+        SLASH = "slash"
+        STAR = "star"
+        OVAL = "oval"
+        CLOUD = "cloud"
 
     d = {
         "box": [Look.GREEN, Look.RECT],
@@ -53,8 +59,8 @@ def color_nodes():
         "delete": [Look.RED, Look.RECT],
         "attribwrangle": [Look.WATERBLUE, Look.SQUARE],
         "object_merge": [Look.BLACK, Look.TRAPD, Look.GREY2, Look.TRAPU],
-        "null": [Look.BLACK, Look.CIRCLE, Look.GREY5, Look.NULLS],
-        "dopnet": [Look.LIGHTPURPLE, Look.BURST],
+        "null": [Look.BLACK, Look.CIRCLE, Look.GREY5, Look.NULLS, Look.BORDEAUX],
+        "dopnet": [Look.LIGHTPURPLE, Look.STAR],
     }
 
     for n in ns:
@@ -79,3 +85,9 @@ def color_nodes():
             if outputCount > 0:
                 n.setColor(data[2])
                 n.setUserData("nodeshape", data[3])
+            if "OUT" in n.name():
+                n.setColor(data[4])
+
+        if "vdb" in node:
+            n.setColor(Look.WHITE)
+            n.setUserData("nodeshape", Look.CLOUD)
