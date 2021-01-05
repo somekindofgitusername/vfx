@@ -1,3 +1,6 @@
+# hou shelftool
+# select node and run script
+
 import sys
 
 sys.path.append("/opt/houdini/hfs18.5.408/houdini/python2.7libs/")
@@ -5,30 +8,30 @@ import hou
 
 
 def color_nodes():
+    """Applies standardized look to Houdini nodes.
+    Select nodes and run script.
+    """    
     ns = hou.selectedNodes()
 
     class Look:
-        """A class for printing formatted text"""
+        """A class for houdini nodes look
+        """        
 
         PURPLE = hou.Color((0.205, 0.101, 0.300))
         LIGHTPURPLE = hou.Color((0.451, 0.369, 0.796))
         RED = hou.Color((1.0, 0.0, 0.0))
         BLACK = hou.Color((0.0, 0.0, 0.0))
         WHITE = hou.Color((1.0, 1.0, 1.0))
-
         GREY1 = hou.Color((0.1, 0.1, 0.1))
         GREY2 = hou.Color((0.2, 0.2, 0.2))
         GREY5 = hou.Color((0.5, 0.5, 0.5))
         GREY8 = hou.Color((0.8, 0.8, 0.8))
-
         YELLOW = hou.Color((0.5, 0.5, 0.0))
         ORANGE = hou.Color((0.7, 0.29, 0.0))
         GREEN = hou.Color((0.087, 0.383, 0.1515))
-
         LIGHTBLUE = hou.Color((0.0, 0.5, 0.5))
         BLUE = hou.Color((0.0, 0.18, 0.5))
         WATERBLUE = hou.Color((0.094, 0.369, 0.690))
-
         BEIGE = hou.Color((0.3, 0.1875, 0.075))
         PINKL = hou.Color((0.956, 0.172, 1.0))
 
