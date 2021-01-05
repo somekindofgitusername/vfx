@@ -7,4 +7,4 @@ import hou
 
 from .omerge2 import omerge
 from .renderseq import renderseq
-from .colors nodes import color_nodes
+from .colorsnodes import color_nodes
