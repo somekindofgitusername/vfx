@@ -66,8 +66,11 @@ def color_nodes():
     for n in ns:
         node = n.type().name()
         data = d.get(node)
-        n.setColor(data[0])
-        n.setUserData("nodeshape", data[1])
+        try:
+            n.setColor(data[0])
+            n.setUserData("nodeshape", data[1])
+        except:
+            pass #node may not be listed
 
         if node == "object_merge":
             print "merge detected"
