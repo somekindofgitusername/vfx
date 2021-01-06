@@ -14,7 +14,6 @@ import subprocess
 import sys
 
 
-
 class Color:
     """A class for printing formatted text
     """
