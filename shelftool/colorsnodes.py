@@ -8,6 +8,12 @@ sys.path.append("/opt/houdini/hfs18.5.408/houdini/python2.7libs/")
 import hou
 
 
+def find_matches(d, item):
+    for k in d:
+        if re.match(k, item):
+            return d[k]
+
+
 def color_nodes():
     """Applies standardized look to Houdini nodes.
     Select nodes and run script.
@@ -37,7 +43,7 @@ def color_nodes():
         WATERBLUE = hou.Color((0.094, 0.369, 0.690))
         BEIGE = hou.Color((0.3, 0.1875, 0.075))
         PINKL = hou.Color((0.956, 0.172, 1.0))
-        PEACH = hou.Color((0.98, 0.275, 0.275))
+        PEACH = hou.Color((0.8, 0.3, 0.3))
         # userData("nodeshape")
         TILTED = "tilted"
         RECT = "rect"
