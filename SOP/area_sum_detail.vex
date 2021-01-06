@@ -1,0 +1,30 @@
+// AREA SUM BY CLASS (detail wrangle) --------------------------------
+int max;
+for (int i=0;i<nprimitives(0);i++) max = max(max,prim(0,"class",i));
+
+int maxval = max+1;
+float areasum = 0; 
+addprimattrib(0,"areasum",-1.0);
+for (int class=0;class<maxval;class++){
+
+    int found = findattribvalcount(0,"prim","class",class);
+    if (found !=0){                                            
+        //printf(\"\\nclass[%d]  (found %d prims)\",class,found);
+                                                                 
+        for (int p=0; p<found; p++){                             
+                                                                 
+            int found_p = findattribval(0,"prim","class",class,p);
+            areasum += primintrinsic(0,"measuredarea",found_p);     
+            }                                                         
+        for (int p=0; p<found; p++){                                  
+                                                                      
+            int found_p = findattribval(0,"prim","class",class,p);
+            setprimattrib(0,"areasum",found_p, areasum,'set');      
+        }                                                             
+     areasum = 0;                                                     
+                                                                      
+    }//if                                                             
+
+}// for class
+
+// END AREA SUM BY CLASS (detail wrangle) --------------------------------
