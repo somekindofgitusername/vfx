@@ -1,5 +1,9 @@
 #!/usr/bin/python
 
+# A shell script that finds file sequences (renders, etc)
+# and displays them as patterns with various options for
+# judging size and progress
+
 import argparse
 import fnmatch
 import glob
