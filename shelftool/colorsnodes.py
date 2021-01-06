@@ -69,6 +69,7 @@ def color_nodes():
         "null": [Look.BLACK, Look.CIRCLE, Look.GREY5, Look.NULLS, Look.BORDEAUX],
         "dopnet": [Look.LIGHTPURPLE, Look.STAR],
         "file*": [Look.RED, Look.TILTED],
+        "vdb": [Look.WHITE, Look.CLOUD],
     }
 
     for n in ns:
