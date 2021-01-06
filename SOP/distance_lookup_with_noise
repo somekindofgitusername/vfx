@@ -1,0 +1,18 @@
+// Distance lookup with noise wrangle ---------------------------------------------------------
+#include <voptype.h>
+#include <voplib.h>
+float radius = chf('radius');
+radius += vop_gnrandom(chf('sigma'));
+int maxpoints = chi('maxpoints');
+int pc = pcopen(3,"P",v@P,radius,maxpoints);
+vector value = pcfilter(pc,chs('attribute'));
+vector pos = pcfilter(pc,"P");
+vector pos0 = v@P; 
+float dist = distance(pos0,pos);
+dist += vop_gnrandom(chf('sigma'));
+float ndist = chramp('ndist', exp(-chf('absorbtion') * dist));
+v@Cd = value * ndist;
+if (luminance(v@Cd)<chf('lum_limit')) removepoint(0,@ptnum);
+pcclose(pc);
+f@heat = v@Cd.x;
+// // Distance lookup with noise wrangle ---------------------------------------------------------

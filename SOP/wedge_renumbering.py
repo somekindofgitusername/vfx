@@ -12,9 +12,8 @@ clusters = list(set([int(p.attribValue(clusterName)) for p in geo.points()]))
 
 # remap clusters into contigous order starting at 0
 dic = {t[1]: t[0] for t in enumerate(clusters)}
-print "cluster remap {old_cluster:new_cluster} = ", dic
+print("cluster remap {old_cluster:new_cluster} = ", dic)
 
-# assign new cluster number
 [
     p.setAttribValue("cluster", float(dic[p.attribValue("cluster")]))
     for p in geo.points()
