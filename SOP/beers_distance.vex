@@ -1,0 +1,15 @@
+// Beer's Law 
+// Distance to other geo
+
+int opinput = 3;
+string Pchannel = "P";
+vector P = v@P;
+float radius = chf('radius');
+int maxpoints = chi("maxpoints");
+int h = pcopen(opinput, Pchannel, P, radius, maxpoints);
+string channel_name = "P";
+vector d = distance(v@P, pcfilter(h, channel_name));
+float absorbtion = chf("abs"); // make a log slider
+float k = 1000;
+d = exp(d*k*-absorbtion);
+v@Cd = d;
