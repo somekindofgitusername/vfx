@@ -111,7 +111,7 @@ def contains_digit(s):
 
 
 def frames_ascii(minFrameNum, maxFrameNum, frames):
-    """Create a string representin
+    """Create a string represention.
 
     Args:
         minFrameNum ([type]): [description]
@@ -121,8 +121,6 @@ def frames_ascii(minFrameNum, maxFrameNum, frames):
     Returns:
         [type]: [description]
     """    
-    """
-    """
     framesRepresentation = []
     for i in range(minFrameNum, maxFrameNum):
         if i in frames:
