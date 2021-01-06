@@ -1,5 +1,7 @@
 # hou shelftool
-# select node and run script
+# Left-select node(s) and run script.
+# Colors and shapes will be assigned to nodes
+# depending on what type they are and certain node settings
 
 import re
 import sys

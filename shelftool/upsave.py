@@ -1,5 +1,6 @@
 # for use as a houdini shelf tool
-# upsaves the file
+# increments and saves a file
+
 try:
     import hou
 except:

@@ -1,4 +1,6 @@
 # hou tool to render non contigous sequences
+# Highly job specific so not recommended for general use
+
 try:
     import hou
 except:

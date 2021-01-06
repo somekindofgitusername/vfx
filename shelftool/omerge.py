@@ -1,7 +1,9 @@
 # hou shelftool
-# Object merge version2
-# a filemergenode with selected node(s) as input appears
-# suggested shortcut F1
+# Object merge selected nodes
+# A filemergenode with selected node(s) as input appears.
+# Absolute and relative paths are automatically filled out.
+# Node is named after merged node.
+# Suggested shortcut F1
 
 try:
     import hou
