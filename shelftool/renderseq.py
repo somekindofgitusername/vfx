@@ -9,6 +9,10 @@ except:
 
 
 def renderseq():
+    """Loop over a string containing frame numbers
+    and render each frame while checking if it exists in the render folder.
+    Various scene relevant pieces of information are stored as file attribute.
+    """
     import os.path
     from os import path
     import time

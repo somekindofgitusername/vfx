@@ -105,7 +105,7 @@ def color_nodes():
                 n.setColor(data[2])
                 n.setUserData("nodeshape", data[3])
 
-        # Change if outputwire is present
+        # Change if outputwire is present in null sop
         if node == "null":
             outputCount = len(n.outputs())
             if outputCount > 0:
