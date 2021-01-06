@@ -8,12 +8,6 @@ sys.path.append("/opt/houdini/hfs18.5.408/houdini/python2.7libs/")
 import hou
 
 
-def find_matches(d, item):
-    for k in d:
-        if re.match(k, item):
-            return d[k]
-
-
 def color_nodes():
     """Applies standardized look to Houdini nodes.
     Select nodes and run script.
@@ -65,6 +59,8 @@ def color_nodes():
         "blast": [Look.RED, Look.RECT],
         "delete": [Look.RED, Look.RECT],
         "attribwrangle": [Look.WATERBLUE, Look.SQUARE],
+        "deformationwrangle": [Look.WATERBLUE, Look.SQUARE],
+        "volumewrangle": [Look.WHITE, Look.SQUARE],
         "object_merge": [Look.BLACK, Look.TRAPD, Look.GREY2, Look.TRAPU],
         "null": [Look.BLACK, Look.CIRCLE, Look.GREY5, Look.NULLS, Look.BORDEAUX],
         "dopnet": [Look.LIGHTPURPLE, Look.STAR],
