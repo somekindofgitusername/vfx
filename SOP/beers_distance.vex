@@ -18,3 +18,5 @@ float k = 1000;
 d = exp(d*k*-absorbtion);
 
 v@Cd = d;
+
+pcclose(h);
