@@ -1,2 +1,3 @@
 Rough, production type scripts for specific jobs.
-May not be suitable for general as use as is.
+May not be suitable for general as use as is, especially inlineccp
+which may not work at all on windows machines.
