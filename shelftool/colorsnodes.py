@@ -28,6 +28,7 @@ def color_nodes():
         GREY2 = hou.Color((0.2, 0.2, 0.2))
         GREY5 = hou.Color((0.5, 0.5, 0.5))
         GREY8 = hou.Color((0.8, 0.8, 0.8))
+        GREYGREEN = hou.Color((0.7, 0.8, 0.7))
         YELLOW = hou.Color((0.5, 0.5, 0.0))
         ORANGE = hou.Color((0.7, 0.29, 0.0))
         GREEN = hou.Color((0.087, 0.383, 0.1515))
@@ -36,6 +37,7 @@ def color_nodes():
         WATERBLUE = hou.Color((0.094, 0.369, 0.690))
         BEIGE = hou.Color((0.3, 0.1875, 0.075))
         PINKL = hou.Color((0.956, 0.172, 1.0))
+        PEACH = hou.Color((0.98, 0.275, 0.275))
         # userData("nodeshape")
         TILTED = "tilted"
         RECT = "rect"
@@ -53,6 +55,8 @@ def color_nodes():
         STAR = "star"
         OVAL = "oval"
         CLOUD = "cloud"
+        SLASH = "slash"
+        NONE = ""
 
     d = {
         "box": [Look.GREEN, Look.RECT],
@@ -64,8 +68,9 @@ def color_nodes():
         "object_merge": [Look.BLACK, Look.TRAPD, Look.GREY2, Look.TRAPU],
         "null": [Look.BLACK, Look.CIRCLE, Look.GREY5, Look.NULLS, Look.BORDEAUX],
         "dopnet": [Look.LIGHTPURPLE, Look.STAR],
-        "file*": [Look.RED, Look.TILTED],
+        "file*": [Look.PEACH, Look.SLASH],
         "vdb*": [Look.WHITE, Look.CLOUD],
+        "group*": [Look.GREYGREEN, Look.NONE],
     }
 
     for n in ns:
