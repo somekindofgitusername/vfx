@@ -4,8 +4,11 @@
 import re
 import sys
 
-sys.path.append("/opt/houdini/hfs18.5.408/houdini/python2.7libs/")
-import hou
+try:
+    import hou
+except:
+    sys.path.append("/opt/houdini/hfs18.5.408/houdini/python2.7libs/")
+    import hou
 
 
 def find_matches(d, item):
