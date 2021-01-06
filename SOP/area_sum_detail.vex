@@ -1,5 +1,8 @@
 // AREA SUM BY CLASS (detail wrangle) --------------------------------
-int max;
+// requires a prim class attribute
+
+
+int max = 0;
 for (int i=0;i<nprimitives(0);i++) max = max(max,prim(0,"class",i));
 
 int maxval = max+1;
