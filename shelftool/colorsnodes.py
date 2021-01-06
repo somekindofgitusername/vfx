@@ -69,13 +69,12 @@ def color_nodes():
         "null": [Look.BLACK, Look.CIRCLE, Look.GREY5, Look.NULLS, Look.BORDEAUX],
         "dopnet": [Look.LIGHTPURPLE, Look.STAR],
         "file*": [Look.RED, Look.TILTED],
-        "vdb": [Look.WHITE, Look.CLOUD],
+        "vdb*": [Look.WHITE, Look.CLOUD],
     }
 
     for n in ns:
         node = n.type().name()
-        print("find_matches: ", find_matches(d, node))
-        data = d.get(node)
+        data = find_matches(d, node)
 
         try:
             n.setColor(data[0])
@@ -101,11 +100,3 @@ def color_nodes():
                 n.setUserData("nodeshape", data[3])
             if "OUT" in n.name():
                 n.setColor(data[4])
-
-        if "vdb" in node:
-            n.setColor(Look.WHITE)
-            n.setUserData("nodeshape", Look.CLOUD)
-
-
-#       if "file" in node:
-#           n.setColor(Look.RED)
