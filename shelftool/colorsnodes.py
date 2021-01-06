@@ -82,17 +82,18 @@ def color_nodes():
         except:
             pass  # node may not be listed
 
+        # Change according to absolute or relative paths
         if node == "object_merge":
-            # print "merge detected"
             paths = [p.name() for p in n.parms() if "objpath" in p.name()]
             pathsEnabled = [p.eval() for p in n.parms() if "enable" in p.name()]
             parmPairs = zip(paths, pathsEnabled)
             activeParm = [p[0] for p in parmPairs if p[1] == 1]
             activePaths = n.parm(activeParm[0]).eval()
-            # print activePaths
             if "../" in activePaths:
                 n.setColor(data[2])
                 n.setUserData("nodeshape", data[3])
+
+        # Change if outputwire is present
         if node == "null":
             outputCount = len(n.outputs())
             if outputCount > 0:
