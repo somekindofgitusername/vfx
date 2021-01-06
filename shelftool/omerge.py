@@ -3,9 +3,10 @@
 # a filemergenode with selected node(s) as input appears
 # suggested shortcut F1
 
+import hou
+
 
 def omerge():
-    # n = hou.selectedNodes()[0]
     for n in hou.selectedNodes():
         print("n: ", str(n))
         node_path = n.path()
