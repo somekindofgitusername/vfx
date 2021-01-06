@@ -13,7 +13,7 @@ except:
     import hou
 
 
-def find_matches(d, item):
+def _find_matches(d, item):
     for k in d:
         if re.match(k, item):
             return d[k]
@@ -86,7 +86,7 @@ def color_nodes():
 
     for n in ns:
         node = n.type().name()
-        data = find_matches(d, node)
+        data = _find_matches(d, node)
 
         try:
             n.setColor(data[0])
