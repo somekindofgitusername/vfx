@@ -1,33 +1,44 @@
 // AREA SUM BY CLASS (detail wrangle) --------------------------------
-// requires a prim class attribute
-
-
-int max = 0;
-for (int i=0;i<nprimitives(0);i++) max = max(max,prim(0,"class",i));
+// with max, min, and array values in detail
+int max=0;
+string className = "class";
+for (int i=0;i<nprimitives(0);i++) max = max(max,prim(0,className,i));
 
 int maxval = max+1;
 float areasum = 0; 
-addprimattrib(0,"areasum",-1.0);
+string geoType = "prim";
+string attName = "area";
+string sumName = attName+"Sum";
+string maxName = attName+"Max";
+string minName = attName+"Min";
+string intrinsicName = "measuredarea";
+
+addprimattrib(0,sumName, -1.0);
+
+float @areaSums[];
+
 for (int class=0;class<maxval;class++){
 
-    int found = findattribvalcount(0,"prim","class",class);
+    int found = findattribvalcount(0,geoType ,className,class);
     if (found !=0){                                            
-        //printf(\"\\nclass[%d]  (found %d prims)\",class,found);
                                                                  
         for (int p=0; p<found; p++){                             
                                                                  
-            int found_p = findattribval(0,"prim","class",class,p);
-            areasum += primintrinsic(0,"measuredarea",found_p);     
+            int found_p = findattribval(0,geoType ,className,class,p);
+            areasum += primintrinsic(0,intrinsicName,found_p);  
             }                                                         
         for (int p=0; p<found; p++){                                  
                                                                       
-            int found_p = findattribval(0,"prim","class",class,p);
-            setprimattrib(0,"areasum",found_p, areasum,'set');      
-        }                                                             
+            int found_p = findattribval(0,geoType ,className,class,p);
+            setprimattrib(0,sumName,found_p, areasum,'set');      
+            
+        }       
+     push(@areaSums, areasum);   
      areasum = 0;                                                     
                                                                       
     }//if                                                             
 
+@maxAreaSum = max(@areaSums);
+@minAreaSum = min(@areaSums);
 }// for class
-
 // END AREA SUM BY CLASS (detail wrangle) --------------------------------
