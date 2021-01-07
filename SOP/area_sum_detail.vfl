@@ -1,11 +1,8 @@
 // AREA SUM BY CLASS (detail wrangle) --------------------------------
 // with max, min, and array values in detail
+
 int max=0;
 string className = "class";
-for (int i=0;i<nprimitives(0);i++) max = max(max,prim(0,className,i));
-
-int maxval = max+1;
-float areasum = 0; 
 string geoType = "prim";
 string attName = "area";
 string sumName = attName+"Sum";
@@ -13,10 +10,15 @@ string maxName = attName+"Max";
 string minName = attName+"Min";
 string intrinsicName = "measuredarea";
 
-addprimattrib(0,sumName, -1.0);
+// How many values for classNames do we have?
+for (int i=0;i<nprimitives(0);i++) max = max(max,prim(0,className,i));
+int maxval = max+1;
 
+float areasum = 0; 
 float @areaSums[];
 
+addprimattrib(0,sumName, -1.0);
+// Loop over every className
 for (int class=0;class<maxval;class++){
 
     int found = findattribvalcount(0,geoType ,className,class);
@@ -33,12 +35,13 @@ for (int class=0;class<maxval;class++){
             setprimattrib(0,sumName,found_p, areasum,'set');      
             
         }       
+
      push(@areaSums, areasum);   
-     areasum = 0;                                                     
-                                                                      
+     areasum = 0; // reset for every className value                                                                                                    
     }//if                                                             
 
 @maxAreaSum = max(@areaSums);
 @minAreaSum = min(@areaSums);
+
 }// for class
 // END AREA SUM BY CLASS (detail wrangle) --------------------------------
