@@ -1,7 +1,9 @@
-# hou shelftool
-# Left-select node(s) and run script.
-# Colors and shapes will be assigned to nodes
-# depending on what type they are and certain node settings
+    """hou shelftool to apply look styles to nodes.
+Usage:    
+Left-select node(s) and run script.
+Colors and shapes will be assigned to nodes depending on 
+type and node settings.
+    """
 
 import re
 import sys
