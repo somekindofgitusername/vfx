@@ -34,3 +34,4 @@ alias dff="df -h|grep nvme && df -h|grep sd"
 alias addswap="sudo swapon /mnt/hdd3tb/swapfile"
 
 h18() { /opt/houdini/hfs18.$@/bin/houdini -n; }#
+cdls() { cd "$@" && ls; } # cd and ls at the same time
