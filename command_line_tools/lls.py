@@ -52,7 +52,7 @@ def parse_args():
         nargs="?",
         const=1,
         help=
-        "display elements of file patterns with | (present) and . (not present) "
+        "display elements of file patterns with | (present) and . (not present)"
     )
 
     args = parser.parse_args()
@@ -148,7 +148,7 @@ def get_work_items(cwd):
     return (filePatterns, items)
 
 
-#===== MAIN =======================================================================
+#===== MAIN ====================================================================
 
 
 def main():
@@ -218,7 +218,7 @@ def main():
         print thing
 
 
-#===== /MAIN ========================================================================
+#===== /MAIN ===================================================================
 
 if __name__ == "__main__":
     sys.exit(main())

@@ -49,6 +49,7 @@ def color_nodes():
         BEIGE = hou.Color((0.3, 0.1875, 0.075))
         PINKL = hou.Color((0.956, 0.172, 1.0))
         PEACH = hou.Color((0.8, 0.3, 0.3))
+
         # userData("nodeshape")
         TILTED = "tilted"
         RECT = "rect"
