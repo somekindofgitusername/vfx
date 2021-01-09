@@ -141,7 +141,8 @@ def get_work_items(cwd):
         m = re.search(r"\d+(?=\D*$)",
                       item)  #search for a number starting at the string"s back
 
-        frameNum = int(m.group(0))
+        #frameNum = int(m.group(0))
+        frameNum = m.group(0)
         fileItem = item.rsplit(str(frameNum), 1)  #split only once from back
         filePatterns[fileItem[0]] = [fileItem[0], fileItem[-1]]
     return (filePatterns, items)
@@ -175,6 +176,8 @@ def main():
         for fileName in filePatternMatches:
             m = re.search(r"\d+(?=\D*$)", fileName)
             currentFrameNum = int(m.group(0))
+            #currentFrameNum = m.group(0)
+            #print fileName, currentFrameNum, m.group(0)
             frames.append(currentFrameNum)  #list of all frames
             if minFrameNum == None:
                 minFrameNum = currentFrameNum
