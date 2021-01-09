@@ -9,17 +9,20 @@
 try:
     import hou
 except:
-    sys.path.append("/opt/houdini/hfs18.5.408/houdini/python2.7libs/")
+    houPyPath = "/opt/houdini/hfs18.5.408/houdini/python2.7libs/"
+    sys.path.append(houPyPath)
     import hou
 
 
 def omerge():
     for n in hou.selectedNodes():
         print("node: ", str(n))
+
         node_path = n.path()
         n_pos = n.position()
         m = n.parent().createNode("object_merge")
         print("node parent: ", n.parent())
+
         offset_y = n.size()[1]
         v2 = hou.Vector2((0, offset_y))
         m_pos = n_pos - 3 * v2

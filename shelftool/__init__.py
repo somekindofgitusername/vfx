@@ -5,7 +5,8 @@ import sys
 try:
     import hou
 except:
-    sys.path.append("/opt/houdini/hfs18.5.408/houdini/python2.7libs/")
+    houPyPath = "/opt/houdini/hfs18.5.408/houdini/python2.7libs/"
+    sys.path.append(houPyPath)
     import hou
 
 from .omerge import omerge
