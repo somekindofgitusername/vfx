@@ -1,7 +1,7 @@
 // BASE CHANGE wrangle ----------------------------------------
 
-vector e0 = chv('e0'); vector e1 = chv('e1'); vector e2 = chv('e2');
-vector b0 = chv('b0'); vector b1 = chv('b1'); vector b2 = chv('b2');
+vector e0 = chv("e0"); vector e1 = chv("e1"); vector e2 = chv("e2");
+vector b0 = chv("b0"); vector b1 = chv("b1"); vector b2 = chv("b2");
 vector a_b;// = v@P.x * e0 + v@P.y * e1 + v@P.z * e2;
 
 matrix3 C;// change of basis matrix
@@ -16,6 +16,6 @@ C1.zx = b2.x; C1.zy = b2.y; C1.zz = b2.z;
 
 v@newcoord = v@P*C1;
 printf("\nC %g\n",C);
-if (chi('test')) v@P = v@newcoord;
+if (chi("test")) v@P = v@newcoord;
 
 // // BASE CHANGE wrangle ----------------------------------------
