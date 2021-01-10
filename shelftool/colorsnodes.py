@@ -21,6 +21,21 @@ def _find_matches(d, item):
         if re.match(k, item):
             return d[k]
 
+def _atts_in_string(codeString):
+    """Find changed attributes in vex code
+
+    Args:
+        codeString (codeString): string of code in wrangle snippet parm
+
+    Returns:
+        [list]: Found attribute names
+    """    
+    import re
+    codeString = codeString.replace(" ","")
+    m = re.findall(r"@(.+?)=", codeString )
+    result = m
+    return result
+
 
 def color_nodes():
     """Applies standardized look to Houdini nodes.
@@ -117,3 +132,13 @@ def color_nodes():
                 n.setUserData("nodeshape", data[3])
             if "OUT" in n.name():
                 n.setColor(data[4])
+
+        # Change if wrangle nodes starts with _
+        if "wrangle" in node and n.name().startswith("_"):
+            codeString = n.parm("snippet").evalAsString()
+            atts = _atts_in_string(codeString)
+            atts_string = "_".join(atts)
+            if atts_string not in n.name():
+                newNodeName = n.name()+"__"+atts_string
+                n.setName(newNodeName, True)
+
