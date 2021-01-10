@@ -134,7 +134,8 @@ def color_nodes():
                 n.setColor(data[4])
 
         # Change if wrangle nodes starts with _
-        # append atts to node
+        # append atts to node name and comment
+        # if those atts have been modified
         try:
             if "wrangle" in node and n.name().startswith("_"):
                 codeString = n.parm("snippet").evalAsString()
