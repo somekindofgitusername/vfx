@@ -1,3 +1,4 @@
+// Basic pcfilter
 float radius = chf("radius");
 int maxpoints = chi("maxpoints"); // 1 or more
 int  h = pcopen(3,  "P", v@P,  radius,  maxpoints);
