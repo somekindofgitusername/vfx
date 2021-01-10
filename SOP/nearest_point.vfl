@@ -1,0 +1,9 @@
+// nearest point distance in self
+float radius = chf("radius");
+int maxpoints = chi("maxpoints"); // 2 or more
+maxpoints = clamp(maxpoints, 2 , 100); // enforce 2 points
+int  h = pcopen(0,  "P", v@P,  radius,  maxpoints);
+vector nearPos = pcimportbyidxv(h, "P", 1);
+f@nearestDist = distance(v@P, nearPos);
+
+pcclose(h);
