@@ -1,0 +1,19 @@
+// unfinished
+
+float rangeFrom = 1; float rangeTo = 100; float maxDuration = 100;
+float duration = random(@ptnum+10)*maxDuration;
+float startFrame = fit01(random(@ptnum), rangeFrom, rangeTo);
+float endFrame = startFrame + duration;
+float normalizedDuration  = fit(duration, 0, maxDuration, 0, 1);
+float currentDuration = fit(@Frame, startFrame, endFrame, 0, 1);
+@startFrame = startFrame; @endFrame  = endFrame; @normalizedDuration = normalizedDuration; @currentDuration = currentDuration;
+
+
+if (@currentDuration>0) {
+
+float curvePosition = @currentDuration;
+f@blastPressure = chf('blastEnegeryCurve', curvePosition); // blastEnegeryCurve is a lookup curve from 01-24 fr
+
+
+
+}
