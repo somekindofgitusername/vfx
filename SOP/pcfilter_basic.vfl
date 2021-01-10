@@ -1,0 +1,9 @@
+int opinput = chi("opinput"); // 3
+string Pchannel = chs("Pchannel"); // P
+vector P = v@P;
+float radius = chf("radius");
+int maxpoints = chi("maxpoints"); // 1 or more
+int  h = pcopen(opinput,  Pchannel,  P,  radius,  maxpoints);
+string channel_name = chs("channel_name to filter");
+
+f@att_filter = pcfilter(h, channelName);f
