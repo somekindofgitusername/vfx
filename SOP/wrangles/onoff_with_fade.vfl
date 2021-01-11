@@ -11,12 +11,11 @@ float currentDuration = fit(@Frame, startFrame, endFrame, 0, 1);
 @normalizedDuration = normalizedDuration; @currentDuration = currentDuration;
 
 
+int r = random(@ptnum)*3;
 if (@currentDuration>0) {
-
-float curvePosition = @currentDuration;
-// blastEnergyCurve is a lookup curve from 01-24 fr
-f@blastPressure = chf('blastEnegeryCurve', curvePosition); 
-
-
-
-}
+    float curvePosition = @currentDuration;
+    // blastEnergyCurve is a lookup curve from 01-24 fr
+    if (r==0) f@blastPressure = chf('blastEnegeryCurve0', curvePosition); 
+    if (r==1) f@blastPressure = chf('blastEnegeryCurve1', curvePosition); 
+    if (r==2) f@blastPressure = chf('blastEnegeryCurve2', curvePosition); 
+    }
