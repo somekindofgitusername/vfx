@@ -32,7 +32,7 @@ def _atts_in_string(codeString):
     """    
     import re
     codeString = codeString.replace(" ","")
-    m = re.findall(r"@(.+?)=", codeString )
+    m = re.findall(r"@(.+?)(\+|\*|\/|\-)?=", codeString )
     result = m
     return result
 
