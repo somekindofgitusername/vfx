@@ -33,8 +33,8 @@ def _atts_in_string(codeString):
     import re
     codeString = codeString.replace(" ","")
     m = re.findall(r"@(.+?)(\+|\*|\/|\-)?=", codeString )
-    result = m
-    return result
+    result = [r[0] for r in result]
+    return list(set(result))
 
 
 def color_nodes():
