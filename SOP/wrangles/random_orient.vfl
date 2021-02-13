@@ -1,0 +1,3 @@
+float r = rand(@ptnum);
+float u = @theta * M_PI;
+@orient = set(0, sin(u), 0, cos(u));
