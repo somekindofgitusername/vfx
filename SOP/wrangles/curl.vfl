@@ -1,0 +1,20 @@
+//input 0 = v@vel
+vector gradVel1 = volumegradient(0,0,v@P);
+vector gradVel2 = volumegradient(0,1,v@P);
+vector gradVel3 = volumegradient(0,2,v@P);
+
+vector curl;
+
+float dzdy = gradVel3.y;//volumesample(3,1,v@P);
+float dydz = gradVel2.z;//volumesample(2,2,v@P);
+curl.x = dzdy - dydz;
+
+float dxdz = gradVel1.z;//volumesample(1,2,v@P);
+float dzdx = gradVel3.x;//volumesample(3,0,v@P);
+curl.y = dxdz - dzdx;
+
+float dydx = gradVel2.x;//volumesample(2,0,v@P);
+float dxdy = gradVel1.y;//volumesample(1,1,v@P);
+curl.z = dydx - dxdy;
+
+v@vel = curl;
