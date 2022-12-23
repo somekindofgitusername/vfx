@@ -1,0 +1,15 @@
+// returns what udim a prim belongs to
+// (run over prims)
+
+int n = primvertexcount(0,@primnum, prim_num);
+vector uv_temp = {0,0,0};
+
+for (int i=0; i<n; i++) {
+    vector uv = vertex(0, 'uv', @primnum, i);
+    uv_temp += uv;
+}
+
+uv_temp /= float(n);
+
+i@udim = 1000 + clamp(floor(uv_temp.x),0,9)+1 + clamp(floor(uv_temp.y),0,9)+10;
+ 

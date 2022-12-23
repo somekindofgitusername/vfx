@@ -1,0 +1,4 @@
+// removes points randomly by id
+int seed = chi('seed');
+float r = random(i@id+seed);
+if (r>ch('lim')) removepoint(0,@ptnum);// lim -> log

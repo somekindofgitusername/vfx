@@ -1,0 +1,10 @@
+// Makes a proportion of particles big post sim
+float r = random(i@id+chi('seed'));
+if (r<ch('lim')){
+
+    float rs = random(i@id+969);
+    rs = chramp('randscaleramp', rs);
+    float size_mult = ch('maxscale')*rs;
+    @pscale *= size_mult;
+
+}

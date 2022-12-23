@@ -1,0 +1,8 @@
+// Changes orthogonal basis vectors to a quaternion
+// suitable for copy stamping
+vector v3 = normalize(v@N);
+vector v2 = -normalize(v@up);
+vector v1 = normalize(v@tangentv);
+matrix3 m = set(v1, v2, v3);
+rotate(m,PI,v3);
+p@orient = quaternion(m);

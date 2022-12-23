@@ -1,0 +1,3 @@
+// sticky points for use with scatter -> enable sourceprim and sourceprimuv
+v@rest = v@P;
+v@P = primuv(2,'P', i@sourceprim, v@sourceprimuv);

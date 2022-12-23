@@ -1,0 +1,15 @@
+// Exponential falloff to grab color attribute
+// suitable for replacing Attrib-transfer with faster and more 
+// physically correct or pleasing result
+
+float radius = ch('radius');
+int maxpoints = chi('maxPoints');
+int pc = pcopen(3,'P', v@P, radius, maxPoints);
+vector pos = pcfilter(pc, 'P');
+vector col = pcfilter(pc, 'Cd');
+float d = distance(v@P, pos);
+d = exp(-d*ch('abs')*100); // abs -> log scale
+v@Cd += col * chramp('d',d);
+v@Cd += ch('global_Cd');
+
+
