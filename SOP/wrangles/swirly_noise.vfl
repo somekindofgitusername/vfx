@@ -1,0 +1,12 @@
+// Convert the position of the input point, v@P, to spherical coordinates
+float r = length(v@P); // radius
+float theta = atan2(v@P.y, v@P.x); // polar angle
+float phi = acos(v@P.z/r); // azimuthal angle
+
+// Displace the point in a swirling pattern using a combination of noise functions
+v@P += r*chv("amplitude")*(
+    sin(chv("frequency1")*theta + chf("offset1"))*sin(phi)*fit01(noise(v@P), -1, 1) + // noise function 1
+    sin(chv("frequency2")*theta + chf("offset2"))*cos(phi)*fit01(snoise(v@P), -1, 1) + // noise function 2
+    cos(chv("frequency3")*theta + chf("offset3"))*sin(phi)*fit01(pnoise(v@P), -1, 1) + // noise function 3
+    cos(chv("frequency4")*theta + chf("offset4"))*cos(phi)*fit01(cnoise(v@P), -1, 1) // noise function 4
+);

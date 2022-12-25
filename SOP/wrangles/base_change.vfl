@@ -1,21 +1,35 @@
 // BASE CHANGE wrangle ----------------------------------------
 
-vector e0 = chv("e0"); vector e1 = chv("e1"); vector e2 = chv("e2");
-vector b0 = chv("b0"); vector b1 = chv("b1"); vector b2 = chv("b2");
-vector a_b;// = v@P.x * e0 + v@P.y * e1 + v@P.z * e2;
+// Define three vectors e0, e1, and e2 using the values from the "e0", "e1", and "e2" channels
+vector e0 = chv("e0");
+vector e1 = chv("e1");
+vector e2 = chv("e2");
 
-matrix3 C;// change of basis matrix
+// Define three vectors b0, b1, and b2 using the values from the "b0", "b1", and "b2" channels
+vector b0 = chv("b0");
+vector b1 = chv("b1");
+vector b2 = chv("b2");
+
+// Declare a vector a_b, but do not initialize its value
+vector a_b;
+
+// Define a matrix C using the components of the vectors e0, e1, and e2
+matrix3 C;
 C.xx = e0.x; C.xy = e0.y; C.xz = e0.z;
 C.yx = e1.x; C.yy = e1.y; C.yz = e1.z;
 C.zx = e2.x; C.zy = e2.y; C.zz = e2.z;
 
-matrix3 C1;// change of basis matrix
+// Define a matrix C1 using the components of the vectors b0, b1, and b2
+matrix3 C1;
 C1.xx = b0.x; C1.xy = b0.y; C1.xz = b0.z;
 C1.yx = b1.x; C1.yy = b1.y; C1.yz = b1.z;
 C1.zx = b2.x; C1.zy = b2.y; C1.zz = b2.z;
 
+// Multiply the vector v@P by the matrix C1 and store the result in v@newcoord
 v@newcoord = v@P*C1;
-printf("\nC %g\n",C);
-if (chi("test")) v@P = v@newcoord;
 
-// // BASE CHANGE wrangle ----------------------------------------
+// Print the matrix C to the console
+printf("\nC %g\n",C);
+
+// If the value of the "test" channel is nonzero, assign the value of v@newcoord to v@P
+if (chi("test")) v@P = v@newcoord;

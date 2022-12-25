@@ -1,0 +1,49 @@
+int N = ch("N"); // number of individuals in the population
+float mutation_rate = chf("mutation_rate"); // probability of mutation
+
+// Initialize the population with random values
+for (int i = 0; i < N; i++) {
+  float value = rand(0, 1);
+  setpointattrib(0, "value", i, value, value, value, value);
+}
+
+// Evaluate the fitness of each individual
+for (int i = 0; i < N; i++) {
+  float value = pointattrib(0, "value", i);
+  float fitness = 1 - abs(value - 0.5); // simple fitness function
+  setpointattrib(0, "fitness", i, fitness, fitness, fitness, fitness);
+}
+
+// Select the fittest individuals as parents
+for (int i = 0; i < N; i++) {
+  int parent1 = i;
+  float max_fitness = pointattrib(0, "fitness", i);
+  for (int j = i+1; j < N; j++) {
+    float fitness = pointattrib(0, "fitness", j);
+    if (fitness > max_fitness) {
+      parent1 = j;
+      max_fitness = fitness;
+    }
+  }
+  // Swap the fittest individual with the current one
+  if (parent1 != i) {
+    float value = pointattrib(0, "value", parent1);
+    float fitness = pointattrib(0, "fitness", parent1);
+    setpointattrib(0, "value", parent1, pointattrib(0, "value", i));
+    setpointattrib(0, "fitness", parent1, pointattrib(0, "fitness", i));
+    setpointattrib(0, "value", i, value);
+    setpointattrib(0, "fitness", i, fitness);
+  }
+}
+
+// Generate the next generation using crossover and mutation
+for (int i = 0; i < N; i += 2) {
+  float parent1_value = pointattrib(0, "value", i);
+  float parent2_value = pointattrib(0, "value", i+1);
+  float child1_value = (parent1_value + parent2_value)/2;
+  float child2_value = (parent1_value + parent2_value)/2;
+  if (rand(0, 1) < mutation_rate) child1_value = rand(0, 1);
+  if (rand(0, 1) < mutation_rate) child2_value = rand(0, 1);
+  setpointattrib(0, "value", i, child1_value, child1_value, child1_value, child1_value);
+  setpointattrib(0, "value", i+1, child2_value, child2_value, child2_value, child2_value);
+}

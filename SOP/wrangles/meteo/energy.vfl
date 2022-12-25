@@ -19,7 +19,7 @@ float light_incidence_sum(vector lightDir, float distanceToLight){
 
 
     // Normalize the light direction if it is nor already normalized
-    lightDir = normalize(lightDir);
+    //lightDir = normalize(lightDir);
 
 
     // Define an array of vectors to store the directions of the faces of the cube
@@ -34,7 +34,7 @@ float light_incidence_sum(vector lightDir, float distanceToLight){
 
     // Iterate over the array and print each direction
     foreach (vector dir; faceDirs) {
-        printf("Direction: %s\n", dir);
+        //printf("Direction: %s\n", dir);
         // Calculate the dot product of the surface normal and the light direction
         float dotProduct = dot(dir, lightDir);
         // The total incident light over the face if facing the light direction
@@ -46,5 +46,5 @@ float light_incidence_sum(vector lightDir, float distanceToLight){
     // Return the sum of all incident light 
     return dotProductFaceSum;
 
-} // light_sum
+} // light_incidence_sum
 
