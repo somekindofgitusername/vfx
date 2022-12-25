@@ -1,0 +1,50 @@
+#include "assert.h"
+
+
+// (@density) light_incidence_sum :: V -> F -> F
+float light_incidence_sum(vector lightDir, float distanceToLight){
+
+    assert(length(lightDir)==1);
+    assert(distanceToLight>0);
+
+    float dotProductFace = 0.0;
+    float dotProductFaceSum = 0.0;
+
+    // Calculate the length of one of the faces of the voxel using the diameter and the formula for the 
+    // length of a face of a regular cube (d / sqrt(3))
+    float diameter = volumevoxeldiameter(0, 0);
+    float faceLength = d / sqrt(3);
+    // Calculate the area of one of the faces of the voxel using the face length
+    float faceArea = face_length*face_length;
+
+
+    // Normalize the light direction if it is nor already normalized
+    lightDir = normalize(lightDir);
+
+
+    // Define an array of vectors to store the directions of the faces of the cube
+    vector[] faceDirs = {
+        {1,0,0}, // +X direction
+        {0,1,0}, // +Y direction
+        {0,0,1}, // +Z direction
+        {-1,0,0}, // -X direction
+        {0,-1,0}, // -Y direction
+        {0,0,-1} // -Z direction
+    };
+
+    // Iterate over the array and print each direction
+    foreach (vector dir; faceDirs) {
+        printf("Direction: %s\n", dir);
+        // Calculate the dot product of the surface normal and the light direction
+        float dotProduct = dot(dir, lightDir);
+        // The total incident light over the face if facing the light direction
+        if (dotProduct>0){
+            dotProductFace = dotProduct * faceArea;
+            dotProductFaceSum += dotProductFace;
+        }
+    }
+    // Return the sum of all incident light 
+    return dotProductFaceSum;
+
+} // light_sum
+

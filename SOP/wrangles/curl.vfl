@@ -1,20 +1,25 @@
-//input 0 = v@vel
+// Calculate the gradient of the input velocity field at the current point in the x, y, and z directions
 vector gradVel1 = volumegradient(0,0,v@P);
 vector gradVel2 = volumegradient(0,1,v@P);
 vector gradVel3 = volumegradient(0,2,v@P);
 
+// Declare a vector to store the curl of the velocity field
 vector curl;
 
-float dzdy = gradVel3.y;//volumesample(3,1,v@P);
-float dydz = gradVel2.z;//volumesample(2,2,v@P);
+// Calculate the curl in the x direction using the y and z components of the gradient
+float dzdy = gradVel3.y;
+float dydz = gradVel2.z;
 curl.x = dzdy - dydz;
 
-float dxdz = gradVel1.z;//volumesample(1,2,v@P);
-float dzdx = gradVel3.x;//volumesample(3,0,v@P);
+// Calculate the curl in the y direction using the x and z components of the gradient
+float dxdz = gradVel1.z;
+float dzdx = gradVel3.x;
 curl.y = dxdz - dzdx;
 
-float dydx = gradVel2.x;//volumesample(2,0,v@P);
-float dxdy = gradVel1.y;//volumesample(1,1,v@P);
+// Calculate the curl in the z direction using the x and y components of the gradient
+float dydx = gradVel2.x;
+float dxdy = gradVel1.y;
 curl.z = dydx - dxdy;
 
+// Assign the calculated curl to the output velocity parameter
 v@vel = curl;

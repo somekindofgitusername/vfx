@@ -1,15 +1,22 @@
-// returns what udim a prim belongs to
-// (run over prims)
+// Returns the UDIM that a primitive belongs to.
+// (Run over primitives.)
 
-int n = primvertexcount(0,@primnum, prim_num);
-vector uv_temp = {0,0,0};
+// Get the number of vertices in the current primitive
+int num_vertices = primvertexcount(0, @primnum, prim_num);
 
-for (int i=0; i<n; i++) {
+// Declare a vector to store the UV coordinates of the vertices
+vector uv_temp = {0, 0, 0};
+
+// Iterate over the vertices
+for (int i = 0; i < num_vertices; i++) {
+    // Get the UV coordinates of the current vertex
     vector uv = vertex(0, 'uv', @primnum, i);
+    // Add the UV coordinates to the sum
     uv_temp += uv;
 }
 
-uv_temp /= float(n);
+// Divide the UV coordinate sum by the number of vertices to get the average
+uv_temp /= float(num_vertices);
 
-i@udim = 1000 + clamp(floor(uv_temp.x),0,9)+1 + clamp(floor(uv_temp.y),0,9)+10;
- 
+// Calculate the UDIM using the average UV coordinates
+i@udim = 1000 + clamp(floor(uv_temp.x), 0, 9) + 1 + clamp(floor(uv_temp.y), 0, 9) + 10;

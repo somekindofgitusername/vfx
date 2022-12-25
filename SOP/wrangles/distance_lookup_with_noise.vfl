@@ -1,25 +1,47 @@
-// Distance lookup with noise wrangle ---------------------------------------------------------
+// Distance lookup with noise wrangle
+
+// Include the necessary VEX libraries
 #include <voptype.h>
 #include <voplib.h>
 
+// Read the radius and maximum number of points from the corresponding input channels
 float radius = chf('radius');
+int max_points = chi('maxPoints');
+
+// Add noise to the radius
 radius += vop_gnrandom(chf('sigma'));
 
-int maxPoints = chi('maxPoints');
+// Open a point cloud at the current position with the modified radius and maximum number of points
+int pc = pcopen(3, "P", v@P, radius, max_points);
 
-int pc = pcopen(3,"P",v@P,radius,maxPoints);
-vector value = pcfilter(pc,chs('attribute_to_filter'));
-vector pos = pcfilter(pc,"P");
-vector pos0 = v@P; 
+// Import the specified attribute from the point cloud
+vector value = pcfilter(pc, chs('attribute_to_filter'));
 
-float dist = distance(pos0,pos);
+// Import the positions of the points in the point cloud
+vector pos = pcfilter(pc, "P");
+
+// Save the position of the current point
+vector pos0 = v@P;
+
+// Calculate the distance between the current point and the points in the point cloud
+float dist = distance(pos0, pos);
+
+// Add noise to the distance
 dist += vop_gnrandom(chf('sigma'));
 
+// Use the distance to determine the absorption of the attribute value
 float ndist = chramp('ndist', exp(-chf('absorbtion') * dist));
+
+// Multiply the attribute value by the absorption to get the final color
 v@Cd = value * ndist;
-if (luminance(v@Cd)<chf('lum_limit')) removepoint(0,@ptnum);
 
+// If the luminance of the color is below the specified limit, remove the point
+if (luminance(v@Cd) < chf('lum_limit')) {
+    removepoint(0, @ptnum);
+}
+
+// Close the point cloud
 pcclose(pc);
-f@heat = v@Cd.x;
 
-// // Distance lookup with noise wrangle ---------------------------------------------------------
+// Set the heat attribute to the red component of the color
+f@heat = v@Cd.x;

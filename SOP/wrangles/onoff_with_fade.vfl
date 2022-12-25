@@ -1,21 +1,40 @@
-// unfinished
+// Declare some variables to store the range of frames and the maximum duration
+float rangeFrom = 1;
+float rangeTo = 100;
+float maxDuration = 100;
 
-float rangeFrom = 1; float rangeTo = 100; float maxDuration = 100;
+// Generate a random duration based on the point number and the maximum duration
 float duration = random(@ptnum+10)*maxDuration;
+
+// Generate a random start frame based on the point number and the frame range
 float startFrame = fit01(random(@ptnum), rangeFrom, rangeTo);
+
+// Calculate the end frame by adding the duration to the start frame
 float endFrame = startFrame + duration;
+
+// Normalize the duration to a value between 0 and 1
 float normalizedDuration  = fit(duration, 0, maxDuration, 0, 1);
+
+// Calculate the current duration as a value between 0 and 1 based on the current frame and the start and end frames
 float currentDuration = fit(@Frame, startFrame, endFrame, 0, 1);
 
-@startFrame = startFrame; @endFrame  = endFrame;
-@normalizedDuration = normalizedDuration; @currentDuration = currentDuration;
+// Assign the calculated values to output parameters
+@startFrame = startFrame;
+@endFrame  = endFrame;
+@normalizedDuration = normalizedDuration;
+@currentDuration = currentDuration;
 
-
+// Generate a random integer between 0 and 2
 int r = random(@ptnum)*3;
+
+// If the current duration is greater than 0
 if (@currentDuration>0) {
+    // Calculate the curve position based on the current duration
     float curvePosition = @currentDuration;
+    
+    // Use the random integer to select one of three lookup curves and evaluate it at the curve position
     // blastEnergyCurve is a lookup curve from 01-24 fr
-    if (r==0) f@blastPressure = chf('blastEnegeryCurve0', curvePosition); 
-    if (r==1) f@blastPressure = chf('blastEnegeryCurve1', curvePosition); 
-    if (r==2) f@blastPressure = chf('blastEnegeryCurve2', curvePosition); 
-    }
+    if (r==0) f@blastPressure = chf('blastEnergyCurve0', curvePosition); 
+    if (r==1) f@blastPressure = chf('blastEnergyCurve1', curvePosition); 
+    if (r==2) f@blastPressure = chf('blastEnergyCurve2', curvePosition); 
+}

@@ -11,38 +11,45 @@ string maxName = attName+"Max";
 string minName = attName+"Min";
 string intrinsicName = "measuredarea";
 
-// How many values for classNames do we have?
+// Find the maximum value of classNames by looping over all primitives and using the max function
 for (int i=0; i<nprimitives(0) ;i++) max = max(max, prim(0, className, i));
 int maxVal = max+1;
 
 float areaSum = 0; 
 float @areaSums[];
 
+// Add an attribute to store the area sums
 addprimattrib(0,sumName, -1.0);
 
 // Loop over every className
 for (int class=0; class<maxVal; class++){
-
+    // Find the number of primitives with the current className value
     int found = findattribvalcount(0, geoType, className, class);
+
+    // If there are any primitives with the current className value
     if (found !=0){                                            
-                                                                 
+        // Loop over all primitives with the current className value                                                         
         for (int p=0; p<found; p++){                             
-                                                                 
+            // Find the index of the current primitive                                                   
             int found_p = findattribval(0, geoType, className, class, p);
+            // Add the measured area of the current primitive to the running sum
             areaSum += primintrinsic(0, intrinsicName, found_p);  
             }      
-
+        // Loop over all primitives with the current className value again
         for (int p=0; p<found; p++){                                  
-                                                                      
+            // Find the index of the current primitive                                                         
             int found_p = findattribval(0, geoType, className, class, p);
+            // Set the value of the sumName attribute for the current primitive to the current running sum
             setprimattrib(0, sumName, found_p, areaSum, 'set');      
             }       
-
+        // Add the current running sum to the array of area sums
         push(@areaSums, areaSum);   
-        areaSum = 0; // reset for every className value    
+        // Reset the running sum for the next className value
+        areaSum = 0; 
 
-    }//if found                                                        
-
+    }//if found         
+                                                   
+    // Find the maximum and minimum values in the array of area sums
     @maxAreaSum = max(@areaSums);
     @minAreaSum = min(@areaSums);
 

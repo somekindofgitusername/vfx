@@ -15,57 +15,59 @@ mymodule = inlinecpp.createLibrary(
     """,
     function_sources=[
         """
+// This function creates a point attribute called "string_groups" that stores the names of all of the point groups
+// that a given point belongs to, as a comma-separated string.
 void pointStringGroup(GU_Detail *gdp)
 {
-    using namespace std;
-        GA_PointGroup*              grp;
+    // Use the GA_PointGroup iterator to loop over all of the point groups in the detail object.
+    GA_PointGroup* grp;
+    GA_FOR_ALL_POINTGROUPS(gdp, grp)
+    {
+        // Get the name of the current point group.
+        const UT_String groupname = grp->getName();
 
-        // Loop over Groups and create group attribute
-        GA_FOR_ALL_POINTGROUPS(gdp, grp)
+        // Set the name of the point attribute to be created or modified.
+        const char* attname = "string_groups";
+
+        // Check if the "string_groups" attribute already exists. If not, create it.
+        GA_RWAttributeRef grpAtt = gdp->findStringTuple(GA_ATTRIB_POINT, attname, 1);
+        if (!grpAtt.isValid())
         {
-                const UT_String groupname = grp->getName();
-                const char * attname = "string_groups";
-       
-                // Create group attribute
-                GA_RWAttributeRef           grpAtt  = gdp->findStringTuple(GA_ATTRIB_POINT, attname,1);
-                if (!grpAtt.isValid())
-                    {
-                            grpAtt = gdp->addStringTuple(GA_ATTRIB_POINT, attname,1);           
-                    } 
+            grpAtt = gdp->addStringTuple(GA_ATTRIB_POINT, attname, 1);
+        }
 
-                GA_RWHandleS grpatthandle( grpAtt.getAttribute() );
-                //cout << typeid(grpatthandle(grpatthandle).name();
+        // Create a handle to the "string_groups" attribute, to read and write its values.
+        GA_RWHandleS grpatthandle(grpAtt.getAttribute());
 
-                // Loop over points and set attribute value
-                GA_Offset  ptOff;
+        // Use the GA_Offset iterator to loop over all of the points in the detail object.
+        GA_Offset ptOff;
+        GA_FOR_ALL_PTOFF(gdp, ptOff)
+        {
+            // Check if the current point belongs to the current point group.
+            if (grp->containsOffset(ptOff))
+            {
+                // Get the current value of the "string_groups" attribute for the current point.
+                UT_String oldname = grpatthandle.get(ptOff);
+
+                // Initialize the new value of the attribute to be the name of the current point group.
                 UT_String newname = groupname;
-                GA_FOR_ALL_PTOFF(gdp, ptOff)
+
+                // If the old value of the attribute is not an empty string, append it to the new value, separated by a comma and a space.
+                if (oldname.length() > 0)
                 {
+                    newname.append(", ");
+                    newname.append(oldname);
+                }
 
-                    if (grp->containsOffset(ptOff))
-                    {    
-                        //cout << ptOff << ": groupname " << groupname << endl;
+                // Set the new value of the "string_groups" attribute for the current point.
+                grpatthandle.set(ptOff, newname);
+            }
+        }
+    }
+}
 
-                        UT_String oldname = grpatthandle.get(ptOff);
-                        if (oldname.length() > 0)
-                            {
-                                //cout << "\toldname " << oldname << endl;
-                                //cout << "\tnewname " << newname << endl;
-                                newname = groupname;
-                                newname.append(", ");
-                                newname.append(oldname);
-                                //cout << "\tnewname " << newname << endl;
 
-                            }
 
-                        grpatthandle.set(ptOff, newname );  
-                    }
-
-                } // For all point offsets     
-
-        } // For all pointgroups
-
-} // inGroup()
 """
     ],
 )
