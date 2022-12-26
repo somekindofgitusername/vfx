@@ -1,7 +1,15 @@
 #include "assert.h"
 
+// Face area of a voxel (assuming it is a cube)
+float voxel_face_area(string volumeFieldName="density"){
+    float voxelDiameter = volumevoxeldiameter(0, volumeFieldName);
+    float voxelSideLength = voxelDiameter / sqrt(3);
+    float voxelFaceArea = pow(voxelSideLength, 2);
+    return voxelFaceArea;
+}
 
-// (volume) light_incidence_sum :: V -> F -> F
+
+// Return the sum of all incident (simple) light on a voxel
 float light_incidence_sum(vector lightDir, float distanceToLight){
 
     assert(length(lightDir)==1);
@@ -49,8 +57,10 @@ float light_incidence_sum(vector lightDir, float distanceToLight){
 } // light_incidence_sum
 
 
-// (volume) raymarch_vol :: V -> F -> F -> F -> F -> Str -> F
-vector raymarch_vol(vector dir, 
+
+// March through a volume in a given direction 
+// and return cumulative values of a float field
+float raymarch_vol(vector dir, 
                     float distMax, 
                     float epsilonMin, 
                     float epsilonMax,
@@ -110,9 +120,9 @@ vector raymarch_vol(vector dir,
 }
 
 
-// (volume) visit_ns :: (P) -> [V]
+
 // Given v@P, return an array of positions of the neighboring voxels.
-vector[] visit_ns() {
+vector[] voxel_ns() {
   // Initialize a list to store the index coordinates of the neighboring voxels.
   vector[] ns;
   // Loop over all the neighboring voxels in a 3x3x3 region around the center voxel.
@@ -142,4 +152,35 @@ vector[] visit_ns() {
     // Do something with the value of the voxel...
     }
   */
+}
+
+
+float thermal_conductivity_air( float T = 303.0, // (assumed) Temperature in kelvin (K)
+                                float k0 = 0.024, // (assumed) Thermal conductivity of air at a reference temperature T0 (W/mK)
+                                float T0 = 273.0, // (assumed) Reference temperature in kelvin (K)
+                                float S = 110.4 // Sutherland constant (K)
+                                {
+    // Calculate the thermal conductivity of air using the Sutherland equation
+    return k0 * pow(T / T0, 3.0 / 2.0) * (T0 + S) / (T + S);
+}
+
+
+// Heat transfer rate (in Watts) between two touching voxels
+float heat_transfer(vector indexPos,
+                    float T1 = 303.0, // Temperature of voxel A in K (assumed value)
+                    float k = 0.026,// Thermal conductivity (assumed value) in (W/mK).
+                    float d = 0.1, // Thickness of the material separating the voxels (assumed value)                   
+                    string volumeFieldName="temperature"
+                     ) 
+                     {
+
+    //Surface area of interface between voxels
+    float A = voxel_face_area(volumeFieldName);
+
+    // Get the temperature of voxel B
+    vector pos = volumeindextopos(0,volumeFieldName, indexPos);
+    float T2 = volumesample(0, volumeFieldName, pos);
+
+    // Calculate the heat transfer rate
+    return k * A * (T1 - T2) / d;
 }
