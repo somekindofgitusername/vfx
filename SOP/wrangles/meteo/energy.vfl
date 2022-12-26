@@ -1,7 +1,7 @@
 #include "assert.h"
 
 
-// (@density) light_incidence_sum :: V -> F -> F
+// (volume) light_incidence_sum :: V -> F -> F
 float light_incidence_sum(vector lightDir, float distanceToLight){
 
     assert(length(lightDir)==1);
@@ -48,3 +48,63 @@ float light_incidence_sum(vector lightDir, float distanceToLight){
 
 } // light_incidence_sum
 
+
+// (volume) raymarch_vol :: V -> F -> F -> F -> F -> Str -> F
+vector raymarch_vol(vector dir, 
+                    float distMax, 
+                    float epsilonMin, 
+                    float epsilonMax,
+                    float opticalDensityLimit = 10.0,
+                    string volumeFieldName = "density"
+                    ) 
+                    {
+
+    // Normalize the ray direction and clamp some values
+    dir = normalize(dir);
+    epsilonMin = clamp(epsilonMin, 0.0, distMax);
+    epsilonMax = clamp(epsilonMax, 0.0, distMax);
+    opticalDensityLimit = clamp(opticalDensityLimit, 0.0 , 1000.0);
+
+    // Initialize the raymarching variables
+    float dist = 0.0;
+    float stepSize = epsilonMin;
+    float opticalDensity = 0.0;
+    vector pos = v@P;
+
+    // Variables used to increase stepsize if it appears 
+    // to march through an empty region.
+    int zeroCounter = 0;  
+    int zeroThreshold = 10; 
+    int zeroMultiplier = 2;
+
+    // March the ray through the volume
+    while (dist < distMax && opticalDensity < opticalDensityLimit) {
+
+        // Sample the density at the current position
+        opticalDensity += volumesample(0, volumeFieldName, pos);
+
+
+        // Check if the current optical density is zero
+        if (opticalDensity == 0) {
+            zeroCounter++;  // Increment the counter
+        } else {
+            zeroCounter = 0;  // Reset the counter
+        }
+        // Increase the step size if the counter has reached the threshold
+        if (zeroCounter >= zeroThreshold) {
+            stepSize *= zeroMultiplier;
+        }
+
+
+        // Move the ray to the next position
+        dist += stepSize;
+        pos += stepSize * dir;
+        // New stepSize
+        stepsize = fit(dist, 0.0, distMax, epsilonMin, epsilonMax);
+    }
+
+  // Return the final optical density value
+  return opticalDensity;   
+
+
+}
