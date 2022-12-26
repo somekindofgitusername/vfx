@@ -108,3 +108,38 @@ vector raymarch_vol(vector dir,
 
 
 }
+
+
+// (volume) visit_ns :: (P) -> [V]
+// Given v@P, return an array of positions of the neighboring voxels.
+vector[] visit_ns() {
+  // Initialize a list to store the index coordinates of the neighboring voxels.
+  vector[] ns;
+  // Loop over all the neighboring voxels in a 3x3x3 region around the center voxel.
+  for (int i = -1; i <= 1; i++) {
+    for (int j = -1; j <= 1; j++) {
+      for (int k = -1; k <= 1; k++) {
+        // Skip the center voxel.
+        if (i == 0 && j == 0 && k == 0) continue;
+        // Add the index coordinate of the current voxel to the list.
+        ns = append(ns, {i, j, k});
+      }
+    }
+  }
+  // Return the list of index coordinates.
+  return ns;
+
+  /* Use this function to access the neighboring voxels 
+   by using the voxel function with the index coordinates 
+   returned by visit_ns. 
+
+   For example:
+
+    vector[] ns = visit_ns(v@P);
+    foreach (vector idx; ns) {
+        // Access the voxel at the current index coordinate.
+        float value = voxel(v@P + idx);  
+    // Do something with the value of the voxel...
+    }
+  */
+}
