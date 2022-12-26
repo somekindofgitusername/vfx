@@ -184,3 +184,42 @@ float heat_transfer(vector indexPos,
     // Calculate the heat transfer rate
     return k * A * (T1 - T2) / d;
 }
+
+// Heat transfer by radiation (stefan boltzman equation)
+// returns Watts
+float heat_transfer_by_radiation(float ε=0.8, float T=303.0, float T0=300.0) {
+    // Calculate the rate of heat transfer by radiation using the Stefan-Boltzmann equation
+    // ε = 0.8; // Emissivity of the water (assumed value), dimensionless
+    // A // Surface area of the water exposed to the light (assumed value)
+    // T = 303.0; // Temperature of the water in kelvin (K) (assumed value)
+    // T0 = 300.0; // Temperature of the surrounding environment in kelvin (K) (assumed value)
+    float stefanBoltzmanConstant = 5.670367e-8;
+    float A = voxel_face_area();
+    return ε * stefanBoltzmanConstant * A * (pow(T, 4.0) - pow(T0, 4.0));
+}
+
+
+// Declare a function that calculates the final temperature of the water when illuminated by the sun
+float finalTemperature(float m, float c, float Tinitial, float A, float I, float t) {
+  // Convert the initial temperature to kelvins
+
+  /* Arguments:
+     m (float): mass of the water in kilograms
+     c (float): specific heat capacity of the water in joules per kilogram kelvin
+     Tinitial (float): initial temperature of the water in degrees Celsius
+     A (float): surface area of the water exposed to the sun in square meters
+     I (float): solar intensity in watts per square meter
+     t (float): duration of the solar illumination in seconds
+   Returns:
+     (float): final temperature of the water in degrees Celsius
+  */
+    float TinitialK = Tinitial + 273.15;
+
+  // Calculate the final temperature of the water
+  float TfinalK = TinitialK + (A * I * t) / (m * c);
+
+  // Convert the final temperature back to degrees Celsius
+  return TfinalK - 273.15;
+}
+
+
