@@ -155,10 +155,10 @@ vector[] voxel_ns() {
 }
 
 
-float thermal_conductivity_air( float T = 303.0, // (assumed) Temperature in kelvin (K)
-                                float k0 = 0.024, // (assumed) Thermal conductivity of air at a reference temperature T0 (W/mK)
-                                float T0 = 273.0, // (assumed) Reference temperature in kelvin (K)
-                                float S = 110.4 // Sutherland constant (K)
+float thermal_conductivity_air( float T = 303.0,  /* (assumed) Temperature in kelvin (K) */
+                                float k0 = 0.024, /* (assumed) Thermal conductivity of air at a reference temperature T0 (W/mK) */
+                                float T0 = 273.0, /* (assumed) Reference temperature in kelvin (K) */
+                                float S = 110.4   /* Sutherland constant (K) */
                                 {
     // Calculate the thermal conductivity of air using the Sutherland equation
     return k0 * pow(T / T0, 3.0 / 2.0) * (T0 + S) / (T + S);
@@ -167,9 +167,9 @@ float thermal_conductivity_air( float T = 303.0, // (assumed) Temperature in kel
 
 // Heat transfer rate (in Watts) between two touching voxels
 float heat_transfer(vector indexPos,
-                    float T1 = 303.0, // Temperature of voxel A in K (assumed value)
-                    float k = 0.026,// Thermal conductivity (assumed value) in (W/mK).
-                    float d = 0.1, // Thickness of the material separating the voxels (assumed value)                   
+                    float T1 = 303.0, /* Temperature of voxel A in K (assumed value) */
+                    float k = 0.026,/* Thermal conductivity (assumed value) in (W/mK) */ 
+                    float d = 0.1, /* Thickness of the material separating the voxels (assumed value) */                  
                     string volumeFieldName="temperature"
                      ) 
                      {
@@ -277,8 +277,8 @@ float calc_humidity(float T, float P)
     float Psat = 10^(A- B / (T + C)); // Antoine equation for water
 
     // Calculate the relative humidity as the ratio of the actual vapor pressure to the saturation vapor pressure
-    float RH = P / Psat;
+    float relativeHumidity = P / Psat;
 
     // Return the result as a float
-    return RH;
+    return relativeHumidity;
 }
