@@ -1,0 +1,44 @@
+// barometric formula
+float atmospheric_pressure() {
+
+    // Height (m)
+    float h = v@P.y;
+
+    // P0: Atmospheric pressure at sea level (Pa)
+    float P0 = 101325.0;
+
+    // M: Molar mass of dry air (g/mol)
+    float M = 28.97;
+
+    // g: Acceleration due to gravity (m/s^2)
+    float g = 9.81;
+
+    // R: Ideal gas constant (J/(mol*K))
+    float R = 8.31;
+
+    // T0: Temperature at sea level (K)
+
+    float T0 = 288.0;
+    float pressure = P0 * exp(-M*g*h / (R*T0) );
+
+return pressure;
+}
+
+
+float atmospheric_temperature() {
+    // Calculate atmospheric temperature at given altitude using standard atmospheric temperature lapse rate
+
+    // Height (m)
+    float h = v@P.y;
+
+    // T0: Temperature at sea level (K
+    float T0 = 288.0;
+
+    // L: Standard atmospheric temperature lapse rate (-6.5°C/km)
+    float L = -6.5;
+
+    float temp = T0 + L * h;
+    
+    return temp;
+}
+

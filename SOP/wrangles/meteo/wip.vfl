@@ -223,3 +223,62 @@ float finalTemperature(float m, float c, float Tinitial, float A, float I, float
 }
 
 
+// Define the function to calculate the temperature at which water will evaporate
+float evaporating_temperature(float Pvap = 0.01, float Patm = 101325)
+{
+    // Define the input variables (with default values)
+    // float Pvap; // Vapor pressure of the water (Pa) (default value: 0.01)
+    // float Patm; // Atmospheric pressure (Pa) (default value: 101325)
+
+    // Calculate the saturation vapor pressure of water at the given temperature
+    float Psat = Pvap * Patm / (Patm - Pvap);
+    
+    // Calculate the temperature at which the water will evaporate using the Antoine equation
+    float T = (8.07131 - log(Psat)) / 1730.63;
+    
+    // Return the result as a vector
+    return T;
+}
+
+
+// Define the function to calculate the vapour pressure of water
+float vapour_pressure(float Patm = 101325, float T = 303)
+{
+    T = T - 273.15; // K to C
+    /*
+     Define the input variables (with default values)
+    float Patm; // Atmospheric pressure (Pa) (default value: 101325)
+    float T; // Temperature (K) (default value: 303)
+    */
+    //the Antoine constants for water in the temperature range from 0 to 50°C 
+    float A = 8.07131
+    float B = 1730.63
+    float C = 233.426
+
+    // Calculate the saturation vapour pressure of water at the given temperature
+    float Psat = 10^(A - B / (T+C));
+    
+    // Calculate the vapour pressure of water using the ideal gas law
+    float Pvap = Psat * Patm / (Patm - Psat);
+    
+    // Return the result as a float
+    return Pvap;
+}
+
+// Define the function to calculate the relative humidity of air
+float calc_humidity(float T, float P)
+{
+    //the Antoine constants for water in the temperature range from 0 to 50°C 
+    float A = 8.07131
+    float B = 1730.63
+    float C = 233.426
+
+    // Calculate the saturation vapor pressure of water at the given temperature
+    float Psat = 10^(A- B / (T + C)); // Antoine equation for water
+
+    // Calculate the relative humidity as the ratio of the actual vapor pressure to the saturation vapor pressure
+    float RH = P / Psat;
+
+    // Return the result as a float
+    return RH;
+}
