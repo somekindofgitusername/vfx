@@ -34,7 +34,7 @@ float atmospheric_temperature(vector pos) {
     // T0: Temperature at sea level (K
     float T0 = 288.0;
 
-    // L: Standard atmospheric temperature lapse rate (-6.5°C/km = 0.0065C/m)
+    // L: Standard atmospheric temperature lapse rate (-6.5°C/km = -0.0065°C/m)
     float L = -0.0065;
 
     float temp = T0 + L * h;
