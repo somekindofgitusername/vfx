@@ -57,10 +57,10 @@ float light_incidence_sum(vector lightDir, float distanceToLight){
 } // light_incidence_sum
 
 
-
 // March through a volume in a given direction 
 // and return cumulative values of a float field
-float raymarch_vol(vector dir, 
+float raymarch_vol( vector pos,
+                    vector dir, 
                     float distMax, 
                     float epsilonMin, 
                     float epsilonMax,
@@ -79,7 +79,7 @@ float raymarch_vol(vector dir,
     float dist = 0.0;
     float stepSize = epsilonMin;
     float opticalDensity = 0.0;
-    vector pos = v@P;
+    //vector pos = v@P;
 
     // Variables used to increase stepsize if it appears 
     // to march through an empty region.
