@@ -10,7 +10,6 @@ voxel_face_area(string volumeFieldName){
     return voxelFaceArea;
 }
 
-
 // Return the sum of all incident (simple) light on a voxel
 float 
 light_incidence_sum(vector lightDir; float distanceToLight){
@@ -329,4 +328,17 @@ float calc_relative_humidity(float temperature, float pressure)
 
     // Returns the result as a float
     return relativeHumidity;
+}
+
+
+// Calculate the expansion of the air based on pressure and heat content
+// pressure: pressure of the air in pascals
+// heat_content: heat content of the air in joules
+float expansion_at_pressure(float pressure, float heat_content)
+{
+    // Calculate the expansion of the air based on the pressure and heat content
+    float expansion = (heat_content / pressure);
+
+    // Return the expansion
+    return expansion;
 }
