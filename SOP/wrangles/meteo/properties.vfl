@@ -1,6 +1,8 @@
 // barometric formula
 float atmospheric_pressure(vector pos) {
 
+    // Calculate atmospheric pressure at given altitude
+
     // Height (m)
     float h = pos.y;
 
@@ -19,14 +21,17 @@ float atmospheric_pressure(vector pos) {
     // T0: Temperature at sea level (K)
 
     float T0 = 288.0;
+
     float pressure = P0 * exp(-M*g*h / (R*T0) );
 
-return pressure;
+    return pressure;
 }
 
 
 float atmospheric_temperature(vector pos) {
-    // Calculate atmospheric temperature at given altitude using standard atmospheric temperature lapse rate
+
+    // Calculate atmospheric temperature 
+    // at given altitude using standard atmospheric temperature lapse rate
 
     // Height (m)
     float h = pos.y;

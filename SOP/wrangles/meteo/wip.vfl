@@ -2,7 +2,8 @@
 
 
 // Face area of a voxel (assuming it is a cube)
-float voxel_face_area(string volumeFieldName){
+float
+voxel_face_area(string volumeFieldName){
     float voxelDiameter = volumevoxeldiameter(0, volumeFieldName);
     float voxelSideLength = voxelDiameter / sqrt(3);
     float voxelFaceArea = pow(voxelSideLength, 2);
@@ -11,7 +12,8 @@ float voxel_face_area(string volumeFieldName){
 
 
 // Return the sum of all incident (simple) light on a voxel
-float light_incidence_sum(vector lightDir; float distanceToLight){
+float 
+light_incidence_sum(vector lightDir; float distanceToLight){
 
     assert(length(lightDir)==1);
     assert(distanceToLight>0);
@@ -19,19 +21,17 @@ float light_incidence_sum(vector lightDir; float distanceToLight){
     float dotProductFace = 0.0;
     float dotProductFaceSum = 0.0;
 
-    // Calculate the length of one of the faces of the voxel using the diameter and the formula for the 
+    // Calculate the length of one of the faces of the voxel 
+    // using the diameter and the formula for the 
     // length of a face of a regular cube (d / sqrt(3))
     float diameter = volumevoxeldiameter(0, 0);
     float faceLength = d / sqrt(3);
+
     // Calculate the area of one of the faces of the voxel using the face length
     float faceArea = face_length*face_length;
 
 
-    // Normalize the light direction if it is nor already normalized
-    //lightDir = normalize(lightDir);
-
-
-    // Define an array of vectors to store the directions of the faces of the cube
+    // Define an array of vectors to store the directions of the cube faces 
     vector faceDirs[] = {
         {1,0,0}, /* +X direction*/
         {0,1,0}, /* +Y direction*/
@@ -43,10 +43,11 @@ float light_incidence_sum(vector lightDir; float distanceToLight){
 
     // Iterate over the array and print each direction
     foreach (vector dir; faceDirs) {
-        //printf("Direction: %s\n", dir);
-        // Calculate the dot product of the surface normal and the light direction
+
+        // Dot product of the surface normal and the light direction
         float dotProduct = dot(dir, lightDir);
-        // The total incident light over the face if facing the light direction
+
+        // Total incident light over the face if facing the light direction
         if (dotProduct>0){
             dotProductFace = dotProduct * faceArea;
             dotProductFaceSum += dotProductFace;
@@ -54,21 +55,20 @@ float light_incidence_sum(vector lightDir; float distanceToLight){
     }
     // Return the sum of all incident light 
     return dotProductFaceSum;
-
-} // light_incidence_sum
+}
 
 
 // March through a volume in a given direction 
 // and return cumulative values of a float field
-float raymarch_vol( vector pos;
+float
+raymarch_vol( vector pos;
                     vector dir; 
                     float distMax; 
                     float epsilonMin; 
                     float epsilonMax;
                     float opticalDensityLimit = 10.0;
                     string volumeFieldName = "density"
-                    ) 
-                    {
+                    ) {
 
     // Normalize the ray direction and clamp some values
     dir = normalize(dir);
@@ -116,65 +116,64 @@ float raymarch_vol( vector pos;
 
   // Return the final optical density value
   return opticalDensity;   
-
-
 }
 
 
 
 // Given v@P, return an array of positions of the neighboring voxels.
-vector[] voxel_ns() {
-  // Initialize a list to store the index coordinates of the neighboring voxels.
+vector[] 
+voxel_ns() {
+
+  // Initialize a list to store the index coordinates of neighboring voxels.
   vector ns[];
-  // Loop over all the neighboring voxels in a 3x3x3 region around the center voxel.
+
+  // Loop over the neighboring voxels in a 3x3x3 region around the center voxel.
   for (int i = -1; i <= 1; i++) {
     for (int j = -1; j <= 1; j++) {
       for (int k = -1; k <= 1; k++) {
+
         // Skip the center voxel.
         if (i == 0 && j == 0 && k == 0) continue;
+
         // Add the index coordinate of the current voxel to the list.
         append(ns, set(i, j, k) );
-      }
-    }
-  }
+
+      } //k
+    } //j
+  } //i
   // Return the list of index coordinates.
   return ns;
-
-  /* Use this function to access the neighboring voxels 
-   by using the voxel function with the index coordinates 
-   returned by visit_ns. 
-
-   For example:
-
-    vector[] ns = visit_ns(v@P);
-    foreach (vector idx; ns) {
-        // Access the voxel at the current index coordinate.
-        float value = voxel(v@P + idx);  
-    // Do something with the value of the voxel...
-    }
-  */
 }
 
 
-float thermal_conductivity_air( float T = 303.0;  /* (assumed) Temperature in kelvin (K) */
-                                float k0 = 0.024; /* (assumed) Thermal conductivity of air at a reference temperature T0 (W/mK) */
-                                float T0 = 273.0; /* (assumed) Reference temperature in kelvin (K) */
-                                float S = 110.4   /* Sutherland constant (K) */
-                                )
-                                {
+float 
+thermal_conductivity_air( float T = 303.0;  /* (assumed) Temperature in kelvin (K) */
+                          float k0 = 0.024; /* (assumed) Thermal conductivity of air at a reference temperature T0 (W/mK) */
+                          float T0 = 273.0; /* (assumed) Reference temperature in kelvin (K) */
+                          float S = 110.4   /* Sutherland constant (K) */
+                          )
+                          {
     // Calculate the thermal conductivity of air using the Sutherland equation
     return k0 * pow(T / T0, 3.0 / 2.0) * (T0 + S) / (T + S);
 }
 
 
 // Heat transfer rate (in Watts) between two touching voxels
-float heat_transfer(vector indexPos;
-                    float T1 = 303.0; /* Temperature of voxel A in K (assumed value) */
-                    float k = 0.026;/* Thermal conductivity (assumed value) in (W/mK) */ 
-                    float d = 0.1; /* Thickness of the material separating the voxels (assumed value) */                  
-                    string volumeFieldName="temperature"
-                     ) 
-                     {
+float 
+heat_transfer(vector indexPos//;
+              //float T1; 
+              //float k;
+              //float d; 
+              //string volumeFieldName
+              ) 
+              {
+
+    // Assumed values for arguments
+    float T1 = 303.0;     // Temp of voxel in K 
+    float k = 0.026;      // Thermal conductivity in (W/mK)
+    float d = 0.1;        // Thickness of material separating the voxels                 
+    string volumeFieldName = "temperature"
+  
 
     //Surface area of interface between voxels
     float A = voxel_face_area(volumeFieldName);
@@ -187,100 +186,147 @@ float heat_transfer(vector indexPos;
     return k * A * (T1 - T2) / d;
 }
 
-// Heat transfer by radiation (stefan boltzman equation)
-// returns Watts
-float heat_transfer_by_radiation(float eps=0.8; float T=303.0; float T0=300.0) {
-    // Calculate the rate of heat transfer by radiation using the Stefan-Boltzmann equation
-    // ε = 0.8; // Emissivity of the water (assumed value), dimensionless
-    // A // Surface area of the water exposed to the light (assumed value)
-    // T = 303.0; // Temperature of the water in kelvin (K) (assumed value)
-    // T0 = 300.0; // Temperature of the surrounding environment in kelvin (K) (assumed value)
+// Calculates the heat transfer by radiation
+//
+// Parameters:
+//   emissivity - the emissivity of the water (dimensionless) (default: 0.8)
+//   temperature - the temperature of the water (in kelvin) (default: 303.0)
+//   environmentTemperature - the temperature of the environment (in kelvin) (default: 300.0)
+//
+// Returns:
+//   The rate of heat transfer by radiation (in watts)
+float heat_transfer_by_radiation(float emissivity; float temperature; 
+                                  float environmentTemperature)
+{
+    // Stefan-Boltzman constant (in W m-2 K-4)
     float stefanBoltzmanConstant = 5.670367e-8;
-    float A = voxel_face_area();
-    return eps * stefanBoltzmanConstant * A * (pow(T, 4.0) - pow(T0, 4.0));
+
+    // Surface area of the water exposed to the light (assumed value)
+    float surfaceArea = voxel_face_area();
+
+    // Calculate the rate of heat transfer by radiation using the Stefan-Boltzmann equation
+    float heatTransfer = emissivity * stefanBoltzmanConstant * 
+    surfaceArea * (pow(temperature, 4.0) - pow(environmentTemperature, 4.0));
+
+    // Return the result
+    return heatTransfer;
 }
 
 
-// Declare a function that calculates the final temperature of the water when illuminated by the sun
-float finalTemperature(float m; float c; float Tinitial; float A; float I; float t) {
-  // Convert the initial temperature to kelvins
-
-  /* Arguments:
-     m (float): mass of the water in kilograms
-     c (float): specific heat capacity of the water in joules per kilogram kelvin
-     Tinitial (float): initial temperature of the water in degrees Celsius
-     A (float): surface area of the water exposed to the sun in square meters
-     I (float): solar intensity in watts per square meter
-     t (float): duration of the solar illumination in seconds
-   Returns:
-     (float): final temperature of the water in degrees Celsius
-  */
-    float TinitialK = Tinitial + 273.15;
-
-  // Calculate the final temperature of the water
-  float TfinalK = TinitialK + (A * I * t) / (m * c);
-
-  // Convert the final temperature back to degrees Celsius
-  return TfinalK - 273.15;
-}
-
-
-// Define the function to calculate the temperature at which water will evaporate
-float evaporating_temperature(float Pvap = 0.01; float Patm = 101325)
+// Calculates the final temperature of the water when illuminated by the sun
+//
+// Parameters:
+//   mass - the mass of the water (in kilograms)
+//   specificHeatCapacity - the specific heat capacity of water (in joules per kilogram kelvin)
+//   initialTemperature - the initial temperature of the water (in degrees Celsius)
+//   surfaceArea - the surface area of the water exposed to the sun (in square meters)
+//   solarIntensity - the solar intensity (in watts per square meter)
+//   duration - the duration of the solar illumination (in seconds)
+//
+// Returns:
+//   The final temperature of the water (as a float)
+float finalTemperature(float mass; float specificHeatCapacity; float initialTemperature;
+                       float surfaceArea; float solarIntensity; float duration)
 {
-    // Define the input variables (with default values)
-    // float Pvap; // Vapor pressure of the water (Pa) (default value: 0.01)
-    // float Patm; // Atmospheric pressure (Pa) (default value: 101325)
+    // Convert the initial temperature to kelvins
+    float initialTemperatureK = initialTemperature + 273.15;
 
-    // Calculate the saturation vapor pressure of water at the given temperature
-    float Psat = Pvap * Patm / (Patm - Pvap);
-    
-    // Calculate the temperature at which the water will evaporate using the Antoine equation
-    float T = (8.07131 - log(Psat)) / 1730.63;
-    
-    // Return the result as a vector
-    return T;
+    // Calculate the final temperature of the water
+    float finalTemperatureK = initialTemperatureK + (surfaceArea * solarIntensity * duration) / (mass * specificHeatCapacity);
+
+    // Convert the final temperature back to degrees Celsius
+    return finalTemperatureK - 273.15;
 }
 
 
-// Define the function to calculate the vapour pressure of water
-float vapour_pressure(float Patm = 101325; float T = 303)
-{
-    T = T - 273.15; // K to C
-    /*
-     Define the input variables (with default values)
-    float Patm; // Atmospheric pressure (Pa) (default value: 101325)
-    float T; // Temperature (K) (default value: 303)
-    */
-    //the Antoine constants for water in the temperature range from 0 to 50°C 
-    float A = 8.07131;
-    float B = 1730.63;
-    float C = 233.426;
 
-    // Calculate the saturation vapour pressure of water at the given temperature
-    float Psat = 10^(A - B / (T+C));
-    
-    // Calculate the vapour pressure of water using the ideal gas law
-    float Pvap = Psat * Patm / (Patm - Psat);
-    
-    // Return the result as a float
-    return Pvap;
+// Calculates the temperature at which water will evaporate
+//
+// Parameters:
+//   vaporPressure - the vapor pressure of the water (in pascals)
+//                   (default value: 0.01)
+//   atmosphericPressure - the atmospheric pressure (in pascals)
+//                        (default value: 101325)
+//
+// Returns:
+//   The temperature at which the water will evaporate (as a float)
+float evaporating_temperature(float vaporPressure; float atmosphericPressure)
+{
+    // The Antoine constants for water in the temperature range from 0 to 50°C
+    const float antoineA = 8.07131;
+    const float antoineB = 1730.63;
+    const float antoineC = 233.426;
+
+    // Calculates the saturation vapor pressure of water at the given temperature
+    float saturationVaporPressure = vaporPressure * atmosphericPressure /
+     (atmosphericPressure - vaporPressure);
+
+    // Calculates the temperature at which the water will evaporate using the Antoine equation
+    float temperature = (antoineA - log(saturationVaporPressure)) / antoineB;
+
+    // Returns the result as a float
+    return temperature;
 }
 
-// Define the function to calculate the relative humidity of air
-float calc_humidity(float T; float P)
+
+
+// Calculates the vapor pressure of water
+//
+// Parameters:
+//   atmosphericPressure - the atmospheric pressure (in pascals)
+//                        (default value: 101325)
+//   temperature - the temperature of the water (in degrees Celsius)
+//                 (default value: 303)
+//
+// Returns:
+//   The vapor pressure of the water (as a float)
+float vapour_pressure(float atmosphericPressure; float temperature)
 {
-    //the Antoine constants for water in the temperature range from 0 to 50°C 
-    float A = 8.07131;
-    float B = 1730.63;
-    float C = 233.426;
 
-    // Calculate the saturation vapor pressure of water at the given temperature
-    float Psat = 10^(A- B / (T + C)); // Antoine equation for water
+    temperature = temperature - 273.15; // K to C
 
-    // Calculate the relative humidity as the ratio of the actual vapor pressure to the saturation vapor pressure
-    float relativeHumidity = P / Psat;
+    // The Antoine constants for water in the temperature range from 0 to 50°C
+    const float antoineA = 8.07131;
+    const float antoineB = 1730.63;
+    const float antoineC = 233.426;
 
-    // Return the result as a float
+    // Calculates the saturation vapor pressure of water at the given temperature
+    float saturationVaporPressure = pow(10, antoineA - antoineB / 
+    (temperature + antoineC));
+
+    // Calculates the vapor pressure of water using the ideal gas law
+    float vaporPressure = saturationVaporPressure * atmosphericPressure / 
+    (atmosphericPressure - saturationVaporPressure);
+
+    // Returns the result as a float
+    return vaporPressure;
+}
+
+
+
+// Calculates the relative humidity of air
+//
+// Parameters:
+//   temperature - the temperature of the air (in degrees Celsius)
+//   pressure - the pressure of the air (in pascals)
+//
+// Returns:
+//   The relative humidity of the air (as a float)
+float calc_relative_humidity(float temperature, float pressure)
+{
+    // The Antoine constants for water in the temperature range from 0 to 50°C
+    const float antoineA = 8.07131;
+    const float antoineB = 1730.63;
+    const float antoineC = 233.426;
+
+    // Calculates the saturation vapor pressure of water at the given temperature
+    float saturationVaporPressure = pow(10, antoineA - antoineB / 
+    (temperature + antoineC));
+
+    // Calculates the relative humidity as the ratio of the actual vapor pressure
+    // to the saturation vapor pressure
+    float relativeHumidity = pressure / saturationVaporPressure;
+
+    // Returns the result as a float
     return relativeHumidity;
 }
