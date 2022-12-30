@@ -24,10 +24,10 @@ light_incidence_sum(vector lightDir; float distanceToLight){
     // using the diameter and the formula for the 
     // length of a face of a regular cube (d / sqrt(3))
     float diameter = volumevoxeldiameter(0, 0);
-    float faceLength = d / sqrt(3);
+    float faceLength = diameter / sqrt(3);
 
     // Calculate the area of one of the faces of the voxel using the face length
-    float faceArea = face_length*face_length;
+    float faceArea = faceLength*faceLength;
 
 
     // Define an array of vectors to store the directions of the cube faces 
@@ -60,20 +60,21 @@ light_incidence_sum(vector lightDir; float distanceToLight){
 // March through a volume in a given direction 
 // and return cumulative values of a float field
 float
-raymarch_vol( vector pos;
-                    vector dir; 
-                    float distMax; 
-                    float epsilonMin; 
-                    float epsilonMax;
-                    float opticalDensityLimit = 10.0;
-                    string volumeFieldName = "density"
-                    ) {
+raymarch_vol(   vector pos;
+                vector dir; 
+                float distMax; 
+                float epsilonMin; 
+                float epsilonMax;
+                float opticalDensityLimit;
+                string volumeFieldName
+                ) {
 
     // Normalize the ray direction and clamp some values
-    dir = normalize(dir);
-    epsilonMin = clamp(epsilonMin, 0.0, distMax);
-    epsilonMax = clamp(epsilonMax, 0.0, distMax);
-    opticalDensityLimit = clamp(opticalDensityLimit, 0.0 , 1000.0);
+    // TODO - Arguments are read-only so this won't work.
+    //dir = normalize(dir);
+    //epsilonMin = clamp(epsilonMin, 0.0, distMax);
+    //epsilonMax = clamp(epsilonMax, 0.0, distMax);
+    //opticalDensityLimit = clamp(opticalDensityLimit, 0.0 , 1000.0);
 
     // Initialize the raymarching variables
     float dist = 0.0;
@@ -93,7 +94,6 @@ raymarch_vol( vector pos;
         // Sample the density at the current position
         opticalDensity += volumesample(0, volumeFieldName, pos);
 
-
         // Check if the current optical density is zero
         if (opticalDensity == 0) {
             zeroCounter++;  // Increment the counter
@@ -105,12 +105,11 @@ raymarch_vol( vector pos;
             stepSize *= zeroMultiplier;
         }
 
-
         // Move the ray to the next position
         dist += stepSize;
         pos += stepSize * dir;
         // New stepSize
-        stepsize = fit(dist, 0.0, distMax, epsilonMin, epsilonMax);
+        stepSize = fit(dist, 0.0, distMax, epsilonMin, epsilonMax);
     }
 
   // Return the final optical density value
@@ -171,7 +170,7 @@ heat_transfer(vector indexPos//;
     float T1 = 303.0;     // Temp of voxel in K 
     float k = 0.026;      // Thermal conductivity in (W/mK)
     float d = 0.1;        // Thickness of material separating the voxels                 
-    string volumeFieldName = "temperature"
+    string volumeFieldName = "temperature";
   
 
     //Surface area of interface between voxels
@@ -252,9 +251,9 @@ float finalTemperature(float mass; float specificHeatCapacity; float initialTemp
 float evaporating_temperature(float vaporPressure; float atmosphericPressure)
 {
     // The Antoine constants for water in the temperature range from 0 to 50°C
-    const float antoineA = 8.07131;
-    const float antoineB = 1730.63;
-    const float antoineC = 233.426;
+    float antoineA = 8.07131;
+    float antoineB = 1730.63;
+    float antoineC = 233.426;
 
     // Calculates the saturation vapor pressure of water at the given temperature
     float saturationVaporPressure = vaporPressure * atmosphericPressure /
@@ -285,9 +284,9 @@ float vapour_pressure(float atmosphericPressure; float temperature)
     temperature = temperature - 273.15; // K to C
 
     // The Antoine constants for water in the temperature range from 0 to 50°C
-    const float antoineA = 8.07131;
-    const float antoineB = 1730.63;
-    const float antoineC = 233.426;
+    float antoineA = 8.07131;
+    float antoineB = 1730.63;
+    float antoineC = 233.426;
 
     // Calculates the saturation vapor pressure of water at the given temperature
     float saturationVaporPressure = pow(10, antoineA - antoineB / 
@@ -311,12 +310,12 @@ float vapour_pressure(float atmosphericPressure; float temperature)
 //
 // Returns:
 //   The relative humidity of the air (as a float)
-float calc_relative_humidity(float temperature, float pressure)
+float calc_relative_humidity(float temperature; float pressure)
 {
     // The Antoine constants for water in the temperature range from 0 to 50°C
-    const float antoineA = 8.07131;
-    const float antoineB = 1730.63;
-    const float antoineC = 233.426;
+    float antoineA = 8.07131;
+    float antoineB = 1730.63;
+    float antoineC = 233.426;
 
     // Calculates the saturation vapor pressure of water at the given temperature
     float saturationVaporPressure = pow(10, antoineA - antoineB / 
