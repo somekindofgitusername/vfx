@@ -116,6 +116,37 @@ raymarch_vol(   vector pos;
   return opticalDensity;   
 }
 
+// voxelPosition: vector (in meters)
+// voxelTemp: float (in Kelvins)
+// voxelVolume: float (in cubic meters)
+// ambientTemp: float (in Kelvins)
+// altitude: float (in meters)
+// liftCoefficient: float (dimensionless)
+// Returns: vector (in Newtons)
+vector liftForce(vector voxelPosition; float voxelTemp; float voxelVolume;
+                float ambientTemp; float altitude; float liftCoefficient) {
+  // Constants
+  float temperatureLapseRate = 0.0065; // in Kelvins per meter
+  float seaLevelTemperature = 288.16; // in Kelvins
+  float seaLevelPressure = 101325; // in Pascals
+  float specificGasConstant = 287.058; // in Joules per kilogram per Kelvin
+  float exponent = 5.25588; // xponent in the ideal gas law
+
+  // Calculate the temperature of the air at the given altitude 
+  // using the temperature lapse rate
+  float airTemp = seaLevelTemperature - temperatureLapseRate * altitude; // in Kelvins
+
+  // Calculate the density of the air at the given altitude using the ideal gas law
+  float pressure = seaLevelPressure * pow(1 - temperatureLapseRate * altitude / seaLevelTemperature, exponent); // in Pascals
+  float airDensity = pressure / (specificGasConstant * airTemp); // in kg/cubicmeter
+
+  // Calculate the upward force based on the temperature difference 
+  // and the lift coefficient
+  vector force = set(0, (voxelTemp - ambientTemp) * liftCoefficient * voxelVolume * airDensity, 0);
+
+  // Return the upward force
+  return force;
+}
 
 
 // Given v@P, return an array of positions of the neighboring voxels.
@@ -145,12 +176,13 @@ voxel_ns() {
 
 
 float 
-thermal_conductivity_air( float T = 303.0;  /* (assumed) Temperature in kelvin (K) */
-                          float k0 = 0.024; /* (assumed) Thermal conductivity of air at a reference temperature T0 (W/mK) */
-                          float T0 = 273.0; /* (assumed) Reference temperature in kelvin (K) */
-                          float S = 110.4   /* Sutherland constant (K) */
-                          )
-                          {
+thermal_conductivity_air( float T ){
+    // assumed default values
+    //float T = 303.0;  //  Temperature in kelvin (K) 
+    float k0 = 0.024; // Thermal conductivity of air at a ref temp T0 (W/mK)
+    float T0 = 273.0; // Reference temperature in kelvin (K) */
+    float S = 110.4; //Sutherland constant (K) 
+
     // Calculate the thermal conductivity of air using the Sutherland equation
     return k0 * pow(T / T0, 3.0 / 2.0) * (T0 + S) / (T + S);
 }
