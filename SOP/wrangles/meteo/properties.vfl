@@ -53,7 +53,8 @@ float voxel_volume() {
   // Calculate the volume of the voxel using the formula for the volume of a sphere
   float bodyDiameter = volumevoxeldiameter(0, 0);
   float voxelVolume = (4/3) * PI * pow(bodyDiameter/2, 3);
-
+  voxelVolume = sqrt(pow(bodyDiameter,3) / sqrt(3.0));
+  voxelVolume = pow(voxelVolume,3.0);
   // Return the volume of the voxel
   return voxelVolume;
 }

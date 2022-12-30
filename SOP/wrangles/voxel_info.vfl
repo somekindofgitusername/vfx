@@ -1,0 +1,11 @@
+// Voxel info
+// Run over detail
+// Stores detail atts
+// Default assumption is rectangular cuboid
+
+v@res = volumeres(0,0);
+v@bounds = getbbox_size(0);
+v@voxelSize = v@bounds/v@res;
+f@voxelVolume = product(v@voxelSize);
+v@voxelFaceArea = pow(v@voxelSize,2.0);
+f@voxelArea = 2.0 * sum(v@voxelFaceArea);
