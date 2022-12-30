@@ -47,6 +47,9 @@ float atmospheric_temperature(vector pos) {
     return temp;
 }
 
+/*
+TO DO: This is wrong
+
 // bodyDiameter: float (in meters)
 // Returns: float (in cubic meters)
 float voxel_volume() {
@@ -58,3 +61,4 @@ float voxel_volume() {
   // Return the volume of the voxel
   return voxelVolume;
 }
+*/
