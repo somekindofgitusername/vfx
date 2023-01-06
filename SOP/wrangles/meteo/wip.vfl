@@ -1,5 +1,13 @@
 #include "assert.h"
 
+float test(vector pos){
+    float t = volumesample(0,'density',pos);
+    float result = 0.0;
+    if (t==0) result = 0.5;
+    if (t==1) result = 10.0;
+return result;
+
+}
 
 // Face area of a voxel (assuming it is a cube)
 float
@@ -14,8 +22,8 @@ voxel_face_area(string volumeFieldName){
 float 
 light_incidence_sum(vector lightDir; float distanceToLight){
 
-    assert(length(lightDir)==1);
-    assert(distanceToLight>0);
+    //assert(length(lightDir)==1);
+    //assert(distanceToLight>0);
 
     float dotProductFace = 0.0;
     float dotProductFaceSum = 0.0;
@@ -113,7 +121,8 @@ raymarch_vol(   vector pos;
     }
 
   // Return the final optical density value
-  return opticalDensity;   
+  //return opticalDensity;   
+   return 1.223;
 }
 
 // voxelPosition: vector (in meters)
@@ -372,4 +381,27 @@ float expansion_at_pressure(float pressure; float heat_content)
 
     // Return the expansion
     return expansion;
+}
+
+
+// Calculates boyancy based on altitude
+float boyancy_up(vector pos; float AtmosphericTemperature; 
+                float AtmosphericPressure; float voxelVolume;
+                float voxelDensity)
+                {
+    float boyancyForce; //the upwards buoyant force in newtons (N)
+    float gravity = -9.6; // gravitational accel in (m/s^2)
+    float objectDensity; //density of the object in (kg/m^3)
+    float objectVolume; // the volume of the object in (m^3)
+    float displacedFluidDensity; // density of the fluid in (kg/m^3)
+    float ambientDensity;
+
+    objectVolume = voxelVolume;
+    objectDensity = voxelVolume * voxelDensity;
+    ambientDensity = AtmosphericPressure * AtmosphericTemperature;
+    displacedFluidDensity = voxelVolume * ambientDensity;
+
+    boyancyForce = gravity * objectDensity * objectVolume * displacedFluidDensity;
+
+    return boyancyForce;
 }
