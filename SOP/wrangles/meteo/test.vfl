@@ -1,0 +1,14 @@
+float test_temp(vector pos) {
+    float d = volumesample(0, 'density', pos);
+    float t = volumesample(0, 'temperature', pos);
+    float h = pos.y;
+    float result = 0.0;
+
+    if (d > 0.0) {
+        result = d * fit(h, 0, 10, 1, 0);
+    } else {
+        result = t;
+    }
+
+    return result;
+}
