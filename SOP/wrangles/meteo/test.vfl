@@ -7,7 +7,7 @@ float test_temp(vector pos) {
     float result = 0.0;
 
     if (d > 0.0) {
-        result = d * fit(h, 0, 10, 1, 0);
+        result = d * fit(h, 0, 10, 1, -2);
     } else {
         result = t;
     }

@@ -1,0 +1,4 @@
+
+float num_timesteps = ch('timesteps');
+float desired_total_reduction = ch('desired_total_reduction');// ie 0.2 (20%)
+float new_reduction_factor = (1.0 - desired_total_reduction)^(1.0/num_timesteps);

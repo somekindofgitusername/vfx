@@ -18,6 +18,7 @@ voxel_face_area(string volumeFieldName){
     return voxelFaceArea;
 }
 
+
 // Return the sum of all incident (simple) light on a voxel
 float 
 light_incidence_sum(vector lightDir; float distanceToLight){
@@ -122,7 +123,7 @@ raymarch_vol(   vector pos;
 
   // Return the final optical density value
   //return opticalDensity;   
-   return 1.223;
+   return opticalDensity;
 }
 
 // voxelPosition: vector (in meters)
