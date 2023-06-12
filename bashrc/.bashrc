@@ -3,6 +3,16 @@
 #export OCIO_ACTIVE_DISPLAYS="sRGB"
 #export OCIO_ACTIVE_VIEWS="Film:Log:Raw"
 
+# my prompt
+precmd() { 
+    export LASTPID=$! 
+    export LASTCMD=$(ps -p $LASTPID -o comm=)
+}
+trap precmd DEBUG
+
+PS1='\[\e[1;31m\]\t\[\e[0m\] (pid: $LASTPID = $LASTCMD) \[\e[0;33m\]\u\[\e[0m\] \[\e[1;34m\]$(pwd)\[\e[0m\]\n\[\e[1;32m\]$\[\e[0m\] '
+# // prompt
+
 alias sourceme='source ~/.bashrc'
 alias editme='gedit ~/.bashrc&'
 alias hfx='/opt/hfs17.5.425/bin/houdini'
